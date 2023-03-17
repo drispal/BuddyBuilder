@@ -3,11 +3,13 @@ package dj2al.example.buddybuilder
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import dj2al.example.buddybuilder.ui.theme.BuddyBuilderTheme
@@ -18,26 +20,26 @@ class MainActivity : ComponentActivity() {
         setContent {
             BuddyBuilderTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
-                }
+                Homescreen(name = "Android")
             }
         }
     }
 }
 
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
+fun Homescreen(name: String) {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(text = "Helllo $name!")
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     BuddyBuilderTheme {
-        Greeting("Android")
+        Homescreen(name = "Android")
     }
 }
