@@ -1,6 +1,6 @@
-package app.dj2al.example.buddybuilder.data.auth
+package dj2al.example.buddybuilder.data.auth
 
-import app.dj2al.example.buddybuilder.data.Resource
+import dj2al.example.buddybuilder.data.Resource
 import com.google.firebase.auth.FirebaseUser
 
 interface AuthRepository {
