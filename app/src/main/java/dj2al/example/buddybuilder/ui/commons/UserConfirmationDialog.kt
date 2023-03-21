@@ -1,16 +1,18 @@
 package dj2al.example.buddybuilder.ui.commons
 
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import dj2al.example.buddybuilder.R
+import dj2al.example.buddybuilder.R.color
+import dj2al.example.buddybuilder.R.string
 
 @Composable
 fun UserConfirmationDialog(
+    dialogText : String,
     onComplete: (shallDelete: Boolean) -> Unit
 ) {
     AlertDialog(
@@ -20,8 +22,8 @@ fun UserConfirmationDialog(
                 onClick = { onComplete.invoke(true) },
                 content = {
                     Text(
-                        text = stringResource(id = R.string.ok),
-                        color = MaterialTheme.colorScheme.error
+                        text = stringResource(id = string.ok),
+                        color = colorResource(id = color.green_accepted)
                     )
                 }
             )
@@ -32,22 +34,31 @@ fun UserConfirmationDialog(
                 onClick = { onComplete.invoke(false) },
                 content = {
                     Text(
-                        text = stringResource(id = R.string.cancel)
+                        text = stringResource(id = string.cancel),
+                        color = colorResource(id = color.red_rejected)
                     )
                 }
             )
         },
         text = {
             Text(
-                text = stringResource(id = R.string.ok),
+                text = dialogText,
                 style = MaterialTheme.typography.titleMedium
             )
-        }
+        },
+        containerColor = colorResource(id = color.grey),
+
     )
 }
 
 @Preview(showBackground = true)
 @Composable
 fun UserConfirmationDialogPreview() {
-    UserConfirmationDialog { }
+    Surface(
+        color = colorResource(id = color.green_general),
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        UserConfirmationDialog(dialogText = "Delete your profile ?") { }
+    }
 }

@@ -5,16 +5,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
+import dj2al.example.buddybuilder.R.color
 
 @Composable
 fun FullScreenProgressbar() {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Transparent)
+            .background(colorResource(id = color.green_general))
     ) {
         val progressbar = createRef()
         CircularProgressIndicator(
@@ -23,7 +24,8 @@ fun FullScreenProgressbar() {
                 top.linkTo(parent.top)
                 bottom.linkTo(parent.bottom)
                 end.linkTo(parent.end)
-            }
+            },
+            color = colorResource(id = color.grey)
         )
     }
 }

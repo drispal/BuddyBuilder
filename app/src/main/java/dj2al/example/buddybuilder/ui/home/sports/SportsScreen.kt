@@ -1,4 +1,4 @@
-package dj2al.example.buddybuilder.ui.commons
+package dj2al.example.buddybuilder.ui.home.sports
 
 
 import androidx.compose.foundation.Image
@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import dj2al.example.buddybuilder.R
 import dj2al.example.buddybuilder.data.models.Sport
+import dj2al.example.buddybuilder.ui.commons.Header
 import dj2al.example.buddybuilder.ui.theme.PurpleGrey80
 
 

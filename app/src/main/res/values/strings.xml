@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">BuddyBuilder</string>
     <string name="empty"></string>
-    <string name="refresh">refresh</string>
-    <string name="ok">ok</string>
-    <string name="cancel">cancel</string>
+    <string name="refresh">Refresh</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
 </resources>

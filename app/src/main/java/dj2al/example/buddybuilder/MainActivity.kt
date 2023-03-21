@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import dj2al.example.buddybuilder.ui.commons.UserScreenPreview
 import dj2al.example.buddybuilder.ui.theme.BuddyBuilderTheme
 
 class MainActivity : ComponentActivity() {
@@ -18,9 +17,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             BuddyBuilderTheme {
-                // A surface container using the 'background' color from the theme
-                UserScreenPreview()
-                //Homescreen(name = "Android")
+                Homescreen(name = "Android")
             }
         }
     }

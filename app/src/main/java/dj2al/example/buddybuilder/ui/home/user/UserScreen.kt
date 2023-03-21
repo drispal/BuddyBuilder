@@ -1,4 +1,4 @@
-package dj2al.example.buddybuilder.ui.commons
+package dj2al.example.buddybuilder.ui.home.user
 
 import android.location.Location
 import androidx.compose.foundation.Image
@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import dj2al.example.buddybuilder.R
 import dj2al.example.buddybuilder.data.models.User
+import dj2al.example.buddybuilder.ui.commons.Header
 
 
 @Composable
