@@ -17,7 +17,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import dj2al.example.buddybuilder.R
 
 @Composable
-fun Header(Titre: String, Previous: @Composable () -> Unit) {
+fun Header(Titre: String, icon: Int) {
     ConstraintLayout(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -39,9 +39,9 @@ fun Header(Titre: String, Previous: @Composable () -> Unit) {
         ) {
             Row(verticalAlignment = Alignment.CenterVertically
             ) {
-                Button(onClick = { /*GO TO Previous*/ }) {
-                    Image(painter = painterResource(id = R.drawable.arrow_back), contentDescription = "")
-                }
+                Spacer(modifier = Modifier.size(15.dp))
+                Image(painter = painterResource(id = icon), contentDescription = "", Modifier.size(30.dp))
+                Spacer(modifier = Modifier.size(15.dp))
                 Text(text = Titre,
                 style = MaterialTheme.typography.titleLarge)
             }
@@ -55,5 +55,5 @@ fun Header(Titre: String, Previous: @Composable () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun HeaderPreview() {
-    Header("HOME") { }
+    Header("HOME", R.drawable.home)
 }

@@ -27,7 +27,9 @@ fun SportsScreen(Sports: List<Sport>?, onSwitch: () -> Unit) {
             .fillMaxSize()
     ) {
         Column(Modifier.fillMaxSize()) {
-            Header(Titre = "Sports") { }
+            Header(Titre = "Sports",
+                icon = R.drawable.sports_soccer
+            )
             Column(
                 Modifier
                     .fillMaxSize()
