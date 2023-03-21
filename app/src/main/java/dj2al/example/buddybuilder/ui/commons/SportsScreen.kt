@@ -8,7 +8,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment.Companion.CenterVertically
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.painterResource
@@ -26,108 +26,111 @@ fun SportsScreen(Sports: List<Sport>?, onSwitch: () -> Unit) {
         modifier = Modifier
             .fillMaxSize()
     ) {
-        Column(
-            Modifier
-                .fillMaxSize()
-                .padding(all = 16.dp)) {
-            val backgroundColor = PurpleGrey80
-            Row(
+        Column(Modifier.fillMaxSize()) {
+            Header(Titre = "Sports") { }
+            Column(
                 Modifier
-                    .fillMaxWidth()
-                    .padding(all = 16.dp)
-                    .shadow(elevation = 10.dp, shape = RoundedCornerShape(10.dp))
-                    .background(backgroundColor)) {
-                Image(painter = painterResource(id = R.drawable.ic_launcher_foreground), contentDescription = "", modifier = Modifier.weight(1f))
-                Text(text = "Football",  modifier = Modifier
-                    .weight(1f)
-                    .align(CenterVertically))
-                Switch(checked = true, onCheckedChange = { }, modifier = Modifier
-                    .weight(1f)
-                    .align(CenterVertically))
-            }
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(all = 16.dp)
-                    .shadow(elevation = 10.dp, shape = RoundedCornerShape(10.dp))
-                    .background(backgroundColor)) {
-                Image(painter = painterResource(id = R.drawable.ic_launcher_foreground), contentDescription = "", modifier = Modifier.weight(1f))
-                Text(text = "Volleyball",  modifier = Modifier
-                    .weight(1f)
-                    .align(CenterVertically))
-                Switch(checked = true, onCheckedChange = { }, modifier = Modifier
-                    .weight(1f)
-                    .align(CenterVertically))
-            }
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(all = 16.dp)
-                    .shadow(elevation = 10.dp, shape = RoundedCornerShape(10.dp))
-                    .background(backgroundColor)) {
-                Image(painter = painterResource(id = R.drawable.ic_launcher_foreground), contentDescription = "", modifier = Modifier.weight(1f))
-                Text(text = "Hockey",  modifier = Modifier
-                    .weight(1f)
-                    .align(CenterVertically))
-                Switch(checked = true, onCheckedChange = { }, modifier = Modifier
-                    .weight(1f)
-                    .align(CenterVertically))
-            }
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(all = 16.dp)
-                    .shadow(elevation = 10.dp, shape = RoundedCornerShape(10.dp))
-                    .background(backgroundColor)) {
-                Image(painter = painterResource(id = R.drawable.ic_launcher_foreground), contentDescription = "", modifier = Modifier.weight(1f))
-                Text(text = "Tennis",  modifier = Modifier
-                    .weight(1f)
-                    .align(CenterVertically))
-                Switch(checked = false, onCheckedChange = { }, modifier = Modifier
-                    .weight(1f)
-                    .align(CenterVertically))
-            }
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(all = 16.dp)
-                    .shadow(elevation = 10.dp, shape = RoundedCornerShape(10.dp))
-                    .background(backgroundColor)) {
-                Image(painter = painterResource(id = R.drawable.ic_launcher_foreground), contentDescription = "", modifier = Modifier.weight(1f))
-                Text(text = "Rugby",  modifier = Modifier
-                    .weight(1f)
-                    .align(CenterVertically))
-                Switch(checked = true, onCheckedChange = { }, modifier = Modifier
-                    .weight(1f)
-                    .align(CenterVertically))
-            }
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(all = 16.dp)
-                    .shadow(elevation = 10.dp, shape = RoundedCornerShape(10.dp))
-                    .background(backgroundColor)) {
-                Image(painter = painterResource(id = R.drawable.ic_launcher_foreground), contentDescription = "", modifier = Modifier.weight(1f))
-                Text(text = "Squash",  modifier = Modifier
-                    .weight(1f)
-                    .align(CenterVertically))
-                Switch(checked = false, onCheckedChange = { }, modifier = Modifier
-                    .weight(1f)
-                    .align(CenterVertically))
-            }
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(all = 16.dp)
-                    .shadow(elevation = 10.dp, shape = RoundedCornerShape(10.dp))
-                    .background(backgroundColor)) {
-                Image(painter = painterResource(id = R.drawable.ic_launcher_foreground), contentDescription = "", modifier = Modifier.weight(1f))
-                Text(text = "E-Sport",  modifier = Modifier
-                    .weight(1f)
-                    .align(CenterVertically))
-                Switch(checked = true, onCheckedChange = { }, modifier = Modifier
-                    .weight(1f)
-                    .align(CenterVertically))
+                    .fillMaxSize()
+                    .padding(all = 16.dp)) {
+                val backgroundColor = PurpleGrey80
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(all = 16.dp)
+                        .shadow(elevation = 10.dp, shape = RoundedCornerShape(10.dp))
+                        .background(backgroundColor)) {
+                    Image(painter = painterResource(id = R.drawable.ic_launcher_foreground), contentDescription = "", modifier = Modifier.weight(1f))
+                    Text(text = "Football",  modifier = Modifier
+                        .weight(1f)
+                        .align(Alignment.CenterVertically))
+                    Switch(checked = true, onCheckedChange = { }, modifier = Modifier
+                        .weight(1f)
+                        .align(Alignment.CenterVertically))
+                }
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(all = 16.dp)
+                        .shadow(elevation = 10.dp, shape = RoundedCornerShape(10.dp))
+                        .background(backgroundColor)) {
+                    Image(painter = painterResource(id = R.drawable.ic_launcher_foreground), contentDescription = "", modifier = Modifier.weight(1f))
+                    Text(text = "Volleyball",  modifier = Modifier
+                        .weight(1f)
+                        .align(Alignment.CenterVertically))
+                    Switch(checked = true, onCheckedChange = { }, modifier = Modifier
+                        .weight(1f)
+                        .align(Alignment.CenterVertically))
+                }
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(all = 16.dp)
+                        .shadow(elevation = 10.dp, shape = RoundedCornerShape(10.dp))
+                        .background(backgroundColor)) {
+                    Image(painter = painterResource(id = R.drawable.ic_launcher_foreground), contentDescription = "", modifier = Modifier.weight(1f))
+                    Text(text = "Hockey",  modifier = Modifier
+                        .weight(1f)
+                        .align(Alignment.CenterVertically))
+                    Switch(checked = true, onCheckedChange = { }, modifier = Modifier
+                        .weight(1f)
+                        .align(Alignment.CenterVertically))
+                }
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(all = 16.dp)
+                        .shadow(elevation = 10.dp, shape = RoundedCornerShape(10.dp))
+                        .background(backgroundColor)) {
+                    Image(painter = painterResource(id = R.drawable.ic_launcher_foreground), contentDescription = "", modifier = Modifier.weight(1f))
+                    Text(text = "Tennis",  modifier = Modifier
+                        .weight(1f)
+                        .align(Alignment.CenterVertically))
+                    Switch(checked = false, onCheckedChange = { }, modifier = Modifier
+                        .weight(1f)
+                        .align(Alignment.CenterVertically))
+                }
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(all = 16.dp)
+                        .shadow(elevation = 10.dp, shape = RoundedCornerShape(10.dp))
+                        .background(backgroundColor)) {
+                    Image(painter = painterResource(id = R.drawable.ic_launcher_foreground), contentDescription = "", modifier = Modifier.weight(1f))
+                    Text(text = "Rugby",  modifier = Modifier
+                        .weight(1f)
+                        .align(Alignment.CenterVertically))
+                    Switch(checked = true, onCheckedChange = { }, modifier = Modifier
+                        .weight(1f)
+                        .align(Alignment.CenterVertically))
+                }
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(all = 16.dp)
+                        .shadow(elevation = 10.dp, shape = RoundedCornerShape(10.dp))
+                        .background(backgroundColor)) {
+                    Image(painter = painterResource(id = R.drawable.ic_launcher_foreground), contentDescription = "", modifier = Modifier.weight(1f))
+                    Text(text = "Squash",  modifier = Modifier
+                        .weight(1f)
+                        .align(Alignment.CenterVertically))
+                    Switch(checked = false, onCheckedChange = { }, modifier = Modifier
+                        .weight(1f)
+                        .align(Alignment.CenterVertically))
+                }
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(all = 16.dp)
+                        .shadow(elevation = 10.dp, shape = RoundedCornerShape(10.dp))
+                        .background(backgroundColor)) {
+                    Image(painter = painterResource(id = R.drawable.ic_launcher_foreground), contentDescription = "", modifier = Modifier.weight(1f))
+                    Text(text = "E-Sport",  modifier = Modifier
+                        .weight(1f)
+                        .align(Alignment.CenterVertically))
+                    Switch(checked = true, onCheckedChange = { }, modifier = Modifier
+                        .weight(1f)
+                        .align(Alignment.CenterVertically))
+                }
             }
         }
     }

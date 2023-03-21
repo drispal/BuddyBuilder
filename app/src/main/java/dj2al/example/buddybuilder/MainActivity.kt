@@ -5,13 +5,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import dj2al.example.buddybuilder.ui.commons.SportsScreenPreview
 import dj2al.example.buddybuilder.ui.theme.BuddyBuilderTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,7 +19,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             BuddyBuilderTheme {
                 // A surface container using the 'background' color from the theme
-                Homescreen(name = "Android")
+                SportsScreenPreview()
+                //Homescreen(name = "Android")
             }
         }
     }
