@@ -4,8 +4,8 @@ import android.location.Location
 
 data class User(
     val mail: String = "",
-    val location: Location,
+    val location: String, //Until we figure out how to use Location
     val maxDistance: Int = 0,
-    val subscribedSports: List<Sport> = listOf(),
-    val subscribedEvents: List<Event> = listOf(),
+    val subscribedSports: MutableList<String> = mutableListOf(),
+    val subscribedEvents: MutableList<String> = mutableListOf(),
 ) : BaseModel()

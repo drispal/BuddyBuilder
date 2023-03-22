@@ -10,33 +10,37 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import dj2al.example.buddybuilder.data.home.AppRepositorys
+import dj2al.example.buddybuilder.ui.commons.TopBar
+import dj2al.example.buddybuilder.ui.home.HomeNavHost
 import dj2al.example.buddybuilder.ui.theme.BuddyBuilderTheme
 
 class MainActivity : ComponentActivity() {
+
+    lateinit var repositorys: AppRepositorys
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        repositorys = AppRepositorys()
         setContent {
             BuddyBuilderTheme {
-                Homescreen(name = "Android")
+                TopBar(title = R.string.app_name, icon = R.drawable.home, content = { HomeNavHost(
+                    innerPadding = it
+                )
+                })
             }
         }
     }
 }
 
-@Composable
-fun Homescreen(name: String) {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(text = "Helllo $name!")
-    }
-}
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     BuddyBuilderTheme {
-        Homescreen(name = "Android")
+        TopBar(title = R.string.app_name, icon = R.drawable.home, content = { HomeNavHost(
+            innerPadding = it
+        )
+        })
     }
 }
