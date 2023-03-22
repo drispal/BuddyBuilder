@@ -1,6 +1,6 @@
 package dj2al.example.buddybuilder.ui
 
-sealed class AppScreen(route : String) {
+sealed class AppScreen(val route : String) {
 
     object Auth : AppScreen("nav_auth") {
         object Login : AppScreen("login")
