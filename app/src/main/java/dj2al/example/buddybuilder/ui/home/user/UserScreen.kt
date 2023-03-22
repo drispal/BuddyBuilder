@@ -20,7 +20,6 @@ import dj2al.example.buddybuilder.data.Resource
 import dj2al.example.buddybuilder.data.home.UsersRepositoryImplFake
 import dj2al.example.buddybuilder.data.models.User
 import dj2al.example.buddybuilder.ui.commons.FullScreenProgressbar
-import dj2al.example.buddybuilder.ui.commons.TopBar
 
 
 @Composable
@@ -73,18 +72,4 @@ fun UserData(user : User)
                 fontSize = 20.sp)
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun UserScreenPreview() {
-    TopBar(title = R.string.app_name, icon =R.drawable.home, content = {
-        Surface(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(it)
-        ) {
-            UserScreen(UserViewModel(UsersRepositoryImplFake()))
-        }
-    })
 }

@@ -26,7 +26,6 @@ import dj2al.example.buddybuilder.data.home.UsersRepositoryImplFake
 import dj2al.example.buddybuilder.data.models.Sport
 import dj2al.example.buddybuilder.data.models.User
 import dj2al.example.buddybuilder.ui.commons.FullScreenProgressbar
-import dj2al.example.buddybuilder.ui.commons.TopBar
 import dj2al.example.buddybuilder.ui.theme.PurpleGrey80
 
 
@@ -104,16 +103,3 @@ fun SportsData(resource: List<Sport>, user : User, sportsViewModel: SportsViewMo
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun SportsScreenPreview() {
-    TopBar(title = R.string.app_name, icon =R.drawable.home, content = {
-        Surface(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(it)
-        ) {
-            SportsScreen(viewModel = SportsViewModel(SportsRepositoryImplFake(), UsersRepositoryImplFake()))
-        }
-    })
-}

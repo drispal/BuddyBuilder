@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import dagger.hilt.android.AndroidEntryPoint
 import dj2al.example.buddybuilder.R
-import dj2al.example.buddybuilder.ui.commons.TopBar
 import dj2al.example.buddybuilder.ui.theme.BuddyBuilderTheme
 
 @AndroidEntryPoint
@@ -16,10 +15,7 @@ class HomeActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             BuddyBuilderTheme {
-                TopBar(title = R.string.app_name, icon = R.drawable.home, content = { HomeNavHost(
-                    innerPadding = it
-                )
-                })
+                HomeNavHost()
             }
         }
     }
@@ -30,9 +26,6 @@ class HomeActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     BuddyBuilderTheme {
-        TopBar(title = R.string.app_name, icon = R.drawable.home, content = { HomeNavHost(
-            innerPadding = it
-        )
-        })
+        HomeNavHost()
     }
 }
