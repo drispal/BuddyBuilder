@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import dj2al.example.buddybuilder.R
 import dj2al.example.buddybuilder.data.Resource
-import dj2al.example.buddybuilder.data.home.UserRepositoryImplFake
+import dj2al.example.buddybuilder.data.home.UsersRepositoryImplFake
 import dj2al.example.buddybuilder.data.models.User
 import dj2al.example.buddybuilder.ui.commons.FullScreenProgressbar
 import dj2al.example.buddybuilder.ui.commons.TopBar
@@ -84,7 +84,7 @@ fun UserScreenPreview() {
                 .fillMaxSize()
                 .padding(it)
         ) {
-            UserScreen(UserViewModel(UserRepositoryImplFake()))
+            UserScreen(UserViewModel(UsersRepositoryImplFake()))
         }
     })
 }

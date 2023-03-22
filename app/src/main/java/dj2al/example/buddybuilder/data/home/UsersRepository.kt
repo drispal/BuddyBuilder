@@ -3,7 +3,7 @@ package dj2al.example.buddybuilder.data.home
 import dj2al.example.buddybuilder.data.Resource
 import dj2al.example.buddybuilder.data.models.User
 
-interface UserRepository {
+interface UsersRepository {
     suspend fun getUser(): Resource<User>
     suspend fun getAllUsers() : Resource<List<User>>
     suspend fun addUser(u : User): Resource<List<User>>

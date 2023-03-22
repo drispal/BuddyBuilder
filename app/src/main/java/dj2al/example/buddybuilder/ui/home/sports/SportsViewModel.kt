@@ -2,16 +2,22 @@ package dj2al.example.buddybuilder.ui.home.sports
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import dj2al.example.buddybuilder.data.Resource
 import dj2al.example.buddybuilder.data.home.SportsRepository
-import dj2al.example.buddybuilder.data.home.UserRepository
+import dj2al.example.buddybuilder.data.home.UsersRepository
 import dj2al.example.buddybuilder.data.models.Sport
 import dj2al.example.buddybuilder.data.models.User
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SportsViewModel (private val sportsRepository: SportsRepository, private val userRepository : UserRepository) : ViewModel() {
+@HiltViewModel
+class SportsViewModel @Inject constructor(
+    private val sportsRepository: SportsRepository,
+    private val userRepository : UsersRepository
+    ) : ViewModel() {
 
     private val _sports = MutableStateFlow<Resource<List<Sport>>?>(null)
     val sports: StateFlow<Resource<List<Sport>>?> = _sports

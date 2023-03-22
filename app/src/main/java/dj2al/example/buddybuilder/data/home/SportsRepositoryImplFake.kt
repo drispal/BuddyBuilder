@@ -4,9 +4,10 @@ import dj2al.example.buddybuilder.R
 import dj2al.example.buddybuilder.data.Resource
 import dj2al.example.buddybuilder.data.models.Sport
 import dj2al.example.buddybuilder.data.utils.currentDateTime
+import javax.inject.Inject
 
 
-class SportsRepositoryImplFake : SportsRepository {
+class SportsRepositoryImplFake @Inject constructor(): SportsRepository {
 
     private val sports : MutableList<Sport> = mutableListOf()
 

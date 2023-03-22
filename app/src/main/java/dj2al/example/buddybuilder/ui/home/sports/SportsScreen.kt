@@ -13,7 +13,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -23,7 +22,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import dj2al.example.buddybuilder.R
 import dj2al.example.buddybuilder.data.Resource
 import dj2al.example.buddybuilder.data.home.SportsRepositoryImplFake
-import dj2al.example.buddybuilder.data.home.UserRepositoryImplFake
+import dj2al.example.buddybuilder.data.home.UsersRepositoryImplFake
 import dj2al.example.buddybuilder.data.models.Sport
 import dj2al.example.buddybuilder.data.models.User
 import dj2al.example.buddybuilder.ui.commons.FullScreenProgressbar
@@ -114,7 +113,7 @@ fun SportsScreenPreview() {
                 .fillMaxSize()
                 .padding(it)
         ) {
-            SportsScreen(viewModel = SportsViewModel(SportsRepositoryImplFake(), UserRepositoryImplFake()))
+            SportsScreen(viewModel = SportsViewModel(SportsRepositoryImplFake(), UsersRepositoryImplFake()))
         }
     })
 }
