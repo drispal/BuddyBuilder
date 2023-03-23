@@ -14,12 +14,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
-import dj2al.example.buddybuilder.R.color
 import dj2al.example.buddybuilder.R.drawable
+import dj2al.example.buddybuilder.ui.theme.BuddyBuilderTheme
 import kotlinx.coroutines.delay
 
 @Composable
@@ -44,7 +43,6 @@ fun SplashScreen() {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = colorResource(id = color.green_general))
     ) {
         Column (horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
@@ -67,5 +65,7 @@ fun SplashScreen() {
 @Preview(showBackground = true)
 @Composable
 fun SplashScreenPreview() {
-    SplashScreen()
+    BuddyBuilderTheme() {
+        SplashScreen()
+    }
 }

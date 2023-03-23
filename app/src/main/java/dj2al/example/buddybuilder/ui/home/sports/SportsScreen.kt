@@ -6,6 +6,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -28,7 +29,6 @@ import dj2al.example.buddybuilder.data.home.UsersRepositoryImplFake
 import dj2al.example.buddybuilder.data.models.Sport
 import dj2al.example.buddybuilder.data.models.User
 import dj2al.example.buddybuilder.ui.commons.FullScreenProgressbar
-import dj2al.example.buddybuilder.ui.theme.PurpleGrey80
 
 
 @Composable
@@ -74,7 +74,7 @@ fun SportsData(resource: List<Sport>, user : User, sportsViewModel: SportsViewMo
             Modifier
                 .fillMaxSize()
                 .padding(all = 16.dp)) {
-            val backgroundColor = PurpleGrey80
+            val backgroundColor = MaterialTheme.colorScheme.background
             resource.forEach {sport ->
                 Row(
                     Modifier

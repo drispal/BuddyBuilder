@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment.Companion.CenterVertically
@@ -15,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import dj2al.example.buddybuilder.R
 import dj2al.example.buddybuilder.data.models.Sport
-import dj2al.example.buddybuilder.ui.theme.PurpleGrey80
 
 
 @Composable
@@ -28,7 +28,7 @@ fun SportCard(sport: Sport) {
             Modifier
                 .fillMaxSize()
                 .padding(all = 16.dp)) {
-            val backgroundColor = PurpleGrey80
+            val backgroundColor = MaterialTheme.colorScheme.background
             Row(
                 Modifier
                     .fillMaxWidth()
