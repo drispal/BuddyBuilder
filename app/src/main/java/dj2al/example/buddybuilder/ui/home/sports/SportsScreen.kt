@@ -11,6 +11,8 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -92,8 +94,19 @@ fun SportsData(resource: List<Sport>, user : User, sportsViewModel: SportsViewMo
                             .weight(1f)
                             .align(Alignment.CenterVertically)
                     )
+                    val checkedState = remember {
+                        mutableStateOf(user.subscribedSports.contains(sport.id))
+                    }
                     Switch(
-                        checked = user.subscribedSports.contains(sport.id), onCheckedChange = {sportsViewModel.addSportToUser(user.id, sport.id)}, modifier = Modifier
+                        checked = checkedState.value,
+                        onCheckedChange = {
+                            checkedState.value = it
+                            if(it)
+                                sportsViewModel.addSportToUser(user.id, sport.id)
+                            else
+                                sportsViewModel.removeSportFromUser(user.id, sport.id)
+                        },
+                        modifier = Modifier
                             .weight(1f)
                             .align(Alignment.CenterVertically)
                     )

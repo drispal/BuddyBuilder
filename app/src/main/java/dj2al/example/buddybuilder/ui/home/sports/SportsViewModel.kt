@@ -42,10 +42,22 @@ class SportsViewModel @Inject constructor(
 
     fun addSportToUser(userId: String, sportId: String) = viewModelScope.launch {
         _user.value = userRepository.addSportToUser(userId, sportId)
+        println("ViewModel : ${_user.value}")
     }
 
     fun addEventToUser(userId : String, eventId : String) = viewModelScope.launch {
         _user.value = userRepository.addEventToUser(userId, eventId)
+        println("ViewModel : ${_user.value}")
+    }
+
+    fun removeSportFromUser(userId: String, sportId: String) = viewModelScope.launch {
+        _user.value = userRepository.removeSportFromUser(userId, sportId)
+        println("ViewModel : ${_user.value}")
+    }
+
+    fun removeEventFromUser(userId: String, eventId: String) = viewModelScope.launch {
+        _user.value = userRepository.removeEventFromUser(userId, eventId)
+        println("ViewModel : ${_user.value}")
     }
 
 }

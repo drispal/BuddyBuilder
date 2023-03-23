@@ -28,15 +28,18 @@ class UsersRepositoryImplFake @Inject constructor(): UsersRepository {
     }
 
     override suspend fun getUser(): Resource<User> {
+        println("Repo : ${users}")
         return Resource.Success(users[0])
     }
 
     override suspend fun getAllUsers(): Resource<List<User>> {
+        println("Repo : ${users}")
         return Resource.Success(users)
     }
 
     override suspend fun addUser(u : User): Resource<List<User>> {
         users.add(u)
+        println("Repo : ${users}")
         return Resource.Success(users)
     }
 
@@ -44,26 +47,45 @@ class UsersRepositoryImplFake @Inject constructor(): UsersRepository {
         u.updatedAt = currentDateTime
         val index = users.indexOfFirst { it.id == u.id }
         users[index] = u
+        println("Repo : ${users}")
         return Resource.Success(users[index])
     }
 
     override suspend fun deleteUser(id : String): Resource<Boolean> {
         val index = users.indexOfFirst { it.id == id }
         users.removeAt(index)
+        println("Repo : ${users}")
         return Resource.Success(true)
     }
 
     override suspend fun addEventToUser(uId: String, eId: String): Resource<User> {
         val index = users.indexOfFirst { it.id == uId }
         users[index].subscribedEvents.add(eId)
+        println("Repo : ${users}")
         return Resource.Success(users[index])
     }
 
     override suspend fun addSportToUser(uId: String, sId: String): Resource<User> {
         val index = users.indexOfFirst { it.id == uId }
-        users[index].subscribedEvents.add(sId)
+        users[index].subscribedSports.add(sId)
+        println("Repo : ${users}")
         return Resource.Success(users[index])
     }
 
+    override suspend fun removeSportFromUser(uId: String, sId: String): Resource<User> {
+        val indexUser = users.indexOfFirst { it.id == uId }
+        val indexSport = users[indexUser].subscribedSports.indexOfFirst { it == sId }
+        users[indexUser].subscribedSports.removeAt(indexSport)
+        println("Repo : ${users}")
+        return Resource.Success(users[indexUser])
+    }
+
+    override suspend fun removeEventFromUser(uId: String, eId: String): Resource<User> {
+        val indexUser = users.indexOfFirst { it.id == uId }
+        val indexEvent = users[indexUser].subscribedEvents.indexOfFirst { it == eId }
+        users[indexUser].subscribedEvents.removeAt(indexEvent)
+        println("Repo : ${users}")
+        return Resource.Success(users[indexUser])
+    }
 
 }

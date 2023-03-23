@@ -10,5 +10,7 @@ interface UsersRepository {
     suspend fun updateUser(u : User): Resource<User>
     suspend fun deleteUser(id : String): Resource<Boolean>
     suspend fun addSportToUser(uId : String, sId: String): Resource<User>
+    suspend fun removeSportFromUser(uId: String, sId: String): Resource<User>
     suspend fun addEventToUser(uId : String, eId: String): Resource<User>
+    suspend fun removeEventFromUser(uId: String, eId: String): Resource<User>
 }
