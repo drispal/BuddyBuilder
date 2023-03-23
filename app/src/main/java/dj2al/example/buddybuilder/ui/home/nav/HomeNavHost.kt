@@ -17,8 +17,10 @@ import androidx.navigation.compose.rememberNavController
 import dj2al.example.buddybuilder.ui.AppScreen
 import dj2al.example.buddybuilder.ui.MenuItem
 import dj2al.example.buddybuilder.ui.commons.AppBar
+import dj2al.example.buddybuilder.ui.home.dashboard.DashboardScreen
 import dj2al.example.buddybuilder.ui.home.sports.SportsScreen
 import dj2al.example.buddybuilder.ui.home.user.UserScreen
+import dj2al.example.buddybuilder.ui.theme.BuddyBuilderTheme
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -72,6 +74,9 @@ fun HomeNavHost() {
                             startDestination = AppScreen.Home.route
                         ) {
                             composable(route = AppScreen.Home.route) {
+                                DashboardScreen(hiltViewModel())
+                            }
+                            composable(route = AppScreen.Sports.route) {
                                 SportsScreen(hiltViewModel())
                             }
                             composable(route = AppScreen.User.route) {
@@ -88,5 +93,7 @@ fun HomeNavHost() {
 @Preview(showBackground = true)
 @Composable
 fun NavHostPreview() {
-    HomeNavHost()
+    BuddyBuilderTheme {
+        HomeNavHost()
+    }
 }
