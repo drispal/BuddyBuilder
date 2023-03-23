@@ -29,6 +29,7 @@ import dj2al.example.buddybuilder.data.home.UsersRepositoryImplFake
 import dj2al.example.buddybuilder.data.models.Sport
 import dj2al.example.buddybuilder.data.models.User
 import dj2al.example.buddybuilder.ui.commons.FullScreenProgressbar
+import dj2al.example.buddybuilder.ui.commons.SportCard
 
 
 @Composable
@@ -76,43 +77,16 @@ fun SportsData(resource: List<Sport>, user : User, sportsViewModel: SportsViewMo
                 .padding(all = 16.dp)) {
             val backgroundColor = MaterialTheme.colorScheme.background
             resource.forEach {sport ->
-                Row(
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(all = 16.dp)
-                        .shadow(elevation = 10.dp, shape = RoundedCornerShape(10.dp))
-                        .background(backgroundColor)
-                ) {
-                    Image(
-                        painter = painterResource(id = sport.thumbnail),
-                        contentDescription = "",
-                        modifier = Modifier.weight(0.5f)
-                    )
-                    Spacer(modifier = Modifier.size(5.dp))
-                    Text(
-                        text = sport.name, modifier = Modifier
-                            .weight(1f)
-                            .align(Alignment.CenterVertically)
-                    )
-                    val checkedState = remember {
-                        mutableStateOf(user.subscribedSports.contains(sport.id))
-                    }
-                    Switch(
-                        checked = checkedState.value,
-                        onCheckedChange = {
-                            checkedState.value = it
-                            if(it)
-                                sportsViewModel.addSportToUser(user.id, sport.id)
-                            else
-                                sportsViewModel.removeSportFromUser(user.id, sport.id)
-                        },
-                        modifier = Modifier
-                            .weight(1f)
-                            .align(Alignment.CenterVertically)
-                    )
-                }
+                SportCard(sport = sport, checked = user.subscribedSports.contains(sport.id), onCheckedStatusChange = {
+                    println("button switch")
+                    if(it)
+                        sportsViewModel.addSportToUser(user.id, sport.id)
+                    else
+                        sportsViewModel.removeSportFromUser(user.id, sport.id)
+                } )
             }
         }
     }
 }
+
 
