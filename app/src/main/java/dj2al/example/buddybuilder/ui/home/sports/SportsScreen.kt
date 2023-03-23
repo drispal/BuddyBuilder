@@ -5,6 +5,8 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -71,14 +73,14 @@ fun SportsData(resource: List<Sport>, user : User, sportsViewModel: SportsViewMo
         modifier = Modifier
             .fillMaxSize()
     ) {
-        Column(
-            Modifier
+        LazyColumn(
+            modifier = Modifier
                 .fillMaxSize()
-                .padding(all = 16.dp)) {
-            val backgroundColor = MaterialTheme.colorScheme.background
-            resource.forEach {sport ->
+                .padding(all = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+        ) {
+            items(resource) { sport ->
                 SportCard(sport = sport, checked = user.subscribedSports.contains(sport.id), onCheckedStatusChange = {
-                    println("button switch")
                     if(it)
                         sportsViewModel.addSportToUser(user.id, sport.id)
                     else

@@ -68,7 +68,8 @@ fun DashboardScreen(viewModel: DashboardViewModel) {
 fun DashboardSportsData(subscribedSports : List<Sport>, dashboardViewModel: DashboardViewModel) {
     ConstraintLayout(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
-            modifier = Modifier.padding(0.dp, 0.dp, 0.dp, 10.dp),
+            modifier = Modifier.padding(all = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             content = {
                 items(count = 10) {
