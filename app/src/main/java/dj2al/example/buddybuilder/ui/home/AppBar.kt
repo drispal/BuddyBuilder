@@ -28,7 +28,7 @@ fun AppBar(
         navigationIcon = {
             IconButton(onClick = onNavigationIconClick) {
                 Icon(
-                    painter = painterResource(id = drawable.menu),
+                    painter = painterResource(id = drawable.ic_menu),
                     contentDescription = "Toggle drawer",
                     modifier = Modifier.size(30.dp)
                 )

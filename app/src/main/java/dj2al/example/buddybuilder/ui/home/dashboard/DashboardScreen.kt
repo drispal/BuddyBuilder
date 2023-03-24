@@ -14,8 +14,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavController
@@ -30,6 +32,7 @@ import dj2al.example.buddybuilder.ui.commons.SmallEventCard
 import dj2al.example.buddybuilder.ui.commons.SportCard
 import dj2al.example.buddybuilder.ui.material3.BottomSheetScaffold
 import dj2al.example.buddybuilder.ui.material3.rememberBottomSheetScaffoldState
+import dj2al.example.buddybuilder.ui.theme.BuddyBuilderTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -125,6 +128,7 @@ fun DashboardScreen(viewModel: DashboardViewModel, navController: NavController)
 fun DashboardSportsData(subscribedSports : List<Sport>, dashboardViewModel: DashboardViewModel, navController: NavController) {
     ConstraintLayout(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
+            modifier = Modifier.fillMaxWidth(),
             contentPadding = PaddingValues(10.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -139,8 +143,8 @@ fun DashboardSportsData(subscribedSports : List<Sport>, dashboardViewModel: Dash
                     )
                 }
                 item {
-                    Button(onClick = {navController.navigate(AppScreen.Sports.route)}) {
-                        Icon(painter = painterResource(id = R.drawable.arrow_back), contentDescription = "")
+                    Button(onClick = {navController.navigate(AppScreen.Sports.route)}, modifier = Modifier.size(65.dp)) {
+                        Icon(painter = painterResource(id = R.drawable.ic_add), contentDescription = "", modifier = Modifier.scale(3f))
                     }
                 }
                 item {
@@ -152,8 +156,11 @@ fun DashboardSportsData(subscribedSports : List<Sport>, dashboardViewModel: Dash
 
 @Composable
 fun DashboardEventsData(incommingEvents : List<Event>, dashboardViewModel: DashboardViewModel, navController: NavController) {
-    ConstraintLayout(modifier = Modifier.heightIn(min = 400.dp, max = 600.dp).fillMaxWidth()) {
+    ConstraintLayout(modifier = Modifier
+        .heightIn(min = 400.dp, max = 600.dp)
+        .fillMaxWidth()) {
         LazyVerticalGrid(
+            modifier = Modifier.fillMaxWidth(),
             columns = GridCells.Fixed(2),
             contentPadding = PaddingValues(10.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),
@@ -172,5 +179,68 @@ fun DashboardEventsData(incommingEvents : List<Event>, dashboardViewModel: Dashb
                         "responsable"))
                 }
             })
+    }
+}
+
+@Preview
+@Composable
+fun PreviewDashBoard() {
+    val sport : Boolean = true;
+    val sports : List<Sport> = listOf()
+
+    BuddyBuilderTheme() {
+        if(sport) {
+            ConstraintLayout(modifier = Modifier.fillMaxSize()) {
+                LazyColumn(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentPadding = PaddingValues(10.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    content = {
+                        items(sports) { sport ->
+                            SportCard(
+                                sport,
+                                false,
+                                {
+                                    //Todo navigate to events
+                                }
+                            )
+                        }
+                        item {
+                            Button(onClick = {}, modifier = Modifier.size(65.dp)) {
+                                Icon(painter = painterResource(id = R.drawable.ic_add), contentDescription = "", modifier = Modifier.scale(3f))
+                            }
+                        }
+                        item {
+                            Spacer(modifier = Modifier.size(300.dp))
+                        }
+                    })
+            }
+        }
+        else {
+            ConstraintLayout(modifier = Modifier
+                .heightIn(min = 400.dp, max = 600.dp)
+                .fillMaxWidth()) {
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    contentPadding = PaddingValues(10.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    content = {
+                        items(count = 20) {it ->
+                            SmallEventCard(Event(
+                                "Football",
+                                11630,
+                                2030,
+                                10,
+                                30,
+                                level = Level.Level2,
+                                22,
+                                "Beaujoire",
+                                "responsable"))
+                        }
+                    })
+            }
+        }
     }
 }

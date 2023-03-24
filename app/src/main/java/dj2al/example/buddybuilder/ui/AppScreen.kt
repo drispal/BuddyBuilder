@@ -27,7 +27,7 @@ enum class MenuItem(
         title = "Home",
         screen = AppScreen.Home,
         contentDescription = "Home",
-        icon = R.drawable.home
+        icon = R.drawable.ic_home
     ),
     Sports (
         index = 1,
@@ -41,6 +41,6 @@ enum class MenuItem(
         title = "User",
         screen = AppScreen.User,
         contentDescription = "User profile",
-        icon = R.drawable.account_circle
+        icon = R.drawable.ic_account_box
     )
 }

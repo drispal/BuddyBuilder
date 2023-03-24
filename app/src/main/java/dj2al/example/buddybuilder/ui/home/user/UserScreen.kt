@@ -52,7 +52,7 @@ fun UserData(user : User)
             modifier = Modifier
                 .fillMaxSize()
                 .padding(all = 16.dp)){
-            Image(painter = painterResource(id = R.drawable.account_circle),
+            Image(painter = painterResource(id = R.drawable.ic_account_box),
                 contentDescription = "",
                 modifier = Modifier.size(200.dp))
             Spacer(modifier = Modifier.size(30.dp))
