@@ -1,34 +1,36 @@
 package dj2al.example.buddybuilder.ui.home.dashboard
 
-import android.app.Application
 import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.navigation.NavController
 import dj2al.example.buddybuilder.R
+import dj2al.example.buddybuilder.data.Resource
 import dj2al.example.buddybuilder.data.models.Event
 import dj2al.example.buddybuilder.data.models.Sport
+import dj2al.example.buddybuilder.ui.AppScreen
+import dj2al.example.buddybuilder.ui.commons.FullScreenProgressbar
 import dj2al.example.buddybuilder.ui.commons.SportCard
 import dj2al.example.buddybuilder.ui.commons.myMutableList
+import dj2al.example.buddybuilder.ui.home.sports.SportsData
 import dj2al.example.buddybuilder.ui.material3.BottomSheetScaffold
 import dj2al.example.buddybuilder.ui.material3.rememberBottomSheetScaffoldState
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardScreen(viewModel: DashboardViewModel) {
+fun DashboardScreen(viewModel: DashboardViewModel, navController: NavController) {
     val context = LocalContext.current
     Column() {
         val contextForToast = LocalContext.current.applicationContext
@@ -36,6 +38,8 @@ fun DashboardScreen(viewModel: DashboardViewModel) {
         val coroutineScope = rememberCoroutineScope()
 
         val scaffoldState = rememberBottomSheetScaffoldState()
+
+        val user = viewModel.user.collectAsState()
 
         BottomSheetScaffold(
             scaffoldState = scaffoldState,
@@ -54,39 +58,85 @@ fun DashboardScreen(viewModel: DashboardViewModel) {
                         color = MaterialTheme.colorScheme.onPrimary
                     )
                 }
-                    // remaining items
-                DashboardEventsData(incommingEvents = listOf(), dashboardViewModel = viewModel)
+                // remaining items
+                user.value?.let {u ->
+                    when (u) {
+                        is Resource.Failure -> {
+                            Toast.makeText(context, u.exception.message, Toast.LENGTH_SHORT).show()
+                        }
+                        Resource.Loading -> {
+                            FullScreenProgressbar()
+                        }
+                        is Resource.Success -> {
+                            val events = viewModel.events.collectAsState()
+                            events.value?.let {
+                                when (it) {
+                                    is Resource.Failure -> {
+                                        Toast.makeText(context, it.exception.message, Toast.LENGTH_SHORT).show()
+                                    }
+                                    Resource.Loading -> {
+                                        FullScreenProgressbar()
+                                    }
+                                    is Resource.Success -> {
+                                        DashboardEventsData(incommingEvents = it.result.filter { u.result.subscribedEvents.contains(it.id) }, dashboardViewModel = viewModel, navController = navController)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             },
             ) {
             // app UI
-            DashboardSportsData(subscribedSports = listOf(), dashboardViewModel = viewModel)
+            user.value?.let {u ->
+                when (u) {
+                    is Resource.Failure -> {
+                        Toast.makeText(context, u.exception.message, Toast.LENGTH_SHORT).show()
+                    }
+                    Resource.Loading -> {
+                        FullScreenProgressbar()
+                    }
+                    is Resource.Success -> {
+                        val sports = viewModel.sports.collectAsState()
+                        sports.value?.let {
+                            when (it) {
+                                is Resource.Failure -> {
+                                    Toast.makeText(context, it.exception.message, Toast.LENGTH_SHORT).show()
+                                }
+                                Resource.Loading -> {
+                                    FullScreenProgressbar()
+                                }
+                                is Resource.Success -> {
+                                    DashboardSportsData(subscribedSports = it.result.filter { u.result.subscribedSports.contains(it.id) }, dashboardViewModel = viewModel, navController = navController)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
 
 @Composable
-fun DashboardSportsData(subscribedSports : List<Sport>, dashboardViewModel: DashboardViewModel) {
+fun DashboardSportsData(subscribedSports : List<Sport>, dashboardViewModel: DashboardViewModel, navController: NavController) {
     ConstraintLayout(modifier = Modifier.fillMaxSize()) {
         LazyColumn(
-            modifier = Modifier.padding(all = 16.dp),
+            contentPadding = PaddingValues(10.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             content = {
-                items(count = 10) {
+                items(subscribedSports) {sport ->
                     SportCard(
-                        Sport(
-                            "PingPong",
-                            R.drawable.sports_pingpong,
-                            myMutableList
-                        ),
+                        sport,
                         false,
                         {
-                            println("hallo")
+                           //Todo navigate to events
                         }
                     )
                 }
                 item {
-                    Button(onClick = { /*TODO*/ }) {
+                    Button(onClick = {navController.navigate(AppScreen.Sports.route)}) {
                         Icon(painter = painterResource(id = R.drawable.arrow_back), contentDescription = "")
                     }
                 }
@@ -98,7 +148,7 @@ fun DashboardSportsData(subscribedSports : List<Sport>, dashboardViewModel: Dash
 }
 
 @Composable
-fun DashboardEventsData(incommingEvents : List<Event>, dashboardViewModel: DashboardViewModel) {
+fun DashboardEventsData(incommingEvents : List<Event>, dashboardViewModel: DashboardViewModel, navController: NavController) {
     ConstraintLayout(modifier = Modifier.heightIn(min = 400.dp)) {
         Text(text = "Dashboard Events")
     }

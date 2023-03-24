@@ -6,7 +6,7 @@ import dj2al.example.buddybuilder.data.utils.currentDateTime
 import javax.inject.Inject
 
 class UsersRepositoryImplFake @Inject constructor(): UsersRepository {
-    private val users : MutableList<User> = mutableListOf()
+    val users : MutableList<User> = mutableListOf()
 
     init {
         users.add(

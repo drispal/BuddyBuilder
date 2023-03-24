@@ -3,6 +3,7 @@ package dj2al.example.buddybuilder.data.home
 import dj2al.example.buddybuilder.R
 import dj2al.example.buddybuilder.data.Resource
 import dj2al.example.buddybuilder.data.models.Sport
+import dj2al.example.buddybuilder.data.models.User
 import dj2al.example.buddybuilder.data.utils.currentDateTime
 import javax.inject.Inject
 

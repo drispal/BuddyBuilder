@@ -75,8 +75,8 @@ fun SportsData(resource: List<Sport>, user : User, sportsViewModel: SportsViewMo
     ) {
         LazyColumn(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(all = 16.dp),
+                .fillMaxSize(),
+            contentPadding = PaddingValues(10.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             items(resource) { sport ->

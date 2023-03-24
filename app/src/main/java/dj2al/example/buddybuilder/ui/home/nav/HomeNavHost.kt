@@ -74,7 +74,7 @@ fun HomeNavHost() {
                             startDestination = AppScreen.Home.route
                         ) {
                             composable(route = AppScreen.Home.route) {
-                                DashboardScreen(hiltViewModel())
+                                DashboardScreen(hiltViewModel(), navController)
                             }
                             composable(route = AppScreen.Sports.route) {
                                 SportsScreen(hiltViewModel())

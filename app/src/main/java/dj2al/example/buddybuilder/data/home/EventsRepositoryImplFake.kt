@@ -2,9 +2,11 @@ package dj2al.example.buddybuilder.data.home
 
 import dj2al.example.buddybuilder.data.Resource
 import dj2al.example.buddybuilder.data.models.Event
+import dj2al.example.buddybuilder.data.models.Sport
+import dj2al.example.buddybuilder.data.models.User
 import javax.inject.Inject
 
-class EventsRepositoryImplFake @Inject constructor(): EventsRepository {
+class EventsRepositoryImplFake @Inject constructor(private val usersRepository: UsersRepositoryImplFake): EventsRepository {
 
     private val events : MutableList<Event> = mutableListOf()
 

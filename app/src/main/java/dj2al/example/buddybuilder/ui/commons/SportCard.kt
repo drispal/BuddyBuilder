@@ -43,11 +43,13 @@ fun SportCard(
     sport: Sport,
     checked : Boolean,
     onCheckedStatusChange: (Boolean) -> Unit,
-    height: Dp = 100.dp,
-    checkedTrackColor: Color = MaterialTheme.colorScheme.tertiary,
-    uncheckedTrackColor: Color = MaterialTheme.colorScheme.onPrimary,
+    gapBetweenThumbAndTrackEdge : Dp = 2.dp,
+    borderWidth : Dp = 2.dp,
+    height: Dp = 108.dp,
+    checkedTrackColor: Color = MaterialTheme.colorScheme.primaryContainer,
+    uncheckedTrackColor: Color = MaterialTheme.colorScheme.surface,
     cornerSize: Int = 10,
-    thumbSize: Dp = 100.dp
+    thumbSize: Dp = 108.dp
 ) {
 
     // this is to disable the ripple effect
@@ -68,9 +70,12 @@ fun SportCard(
         modifier = Modifier
             .fillMaxWidth()
             .height(height = height)
-            .clip(
-                shape = RoundedCornerShape(percent = cornerSize)
-            )
+            .clip(shape = RoundedCornerShape(percent = cornerSize))
+            .border(
+            width = borderWidth,
+            color = MaterialTheme.colorScheme.outline,
+            shape = RoundedCornerShape(percent = cornerSize)
+        )
             .background(color = if (switchOn) checkedTrackColor else uncheckedTrackColor)
             .clickable(
                 indication = null,
@@ -85,7 +90,11 @@ fun SportCard(
         // this is to add padding at the each horizontal side
         Box(
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .padding(
+                    start = gapBetweenThumbAndTrackEdge,
+                    end = gapBetweenThumbAndTrackEdge
+                ),
             contentAlignment = alignment
         ) {
 
@@ -99,7 +108,7 @@ fun SportCard(
                         shape = RoundedCornerShape(percent = cornerSize)
                     )
                     .background(
-                        color = MaterialTheme.colorScheme.error,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
                     ),
                 tint = Color.White
             )
