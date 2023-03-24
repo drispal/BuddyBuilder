@@ -45,11 +45,11 @@ fun SportCard(
     onCheckedStatusChange: (Boolean) -> Unit,
     gapBetweenThumbAndTrackEdge : Dp = 2.dp,
     borderWidth : Dp = 2.dp,
-    height: Dp = 108.dp,
+    height: Dp = 120.dp,
     checkedTrackColor: Color = MaterialTheme.colorScheme.primaryContainer,
     uncheckedTrackColor: Color = MaterialTheme.colorScheme.surface,
     cornerSize: Int = 10,
-    thumbSize: Dp = 108.dp
+    thumbSize: Dp = 120.dp
 ) {
 
     // this is to disable the ripple effect
@@ -103,7 +103,8 @@ fun SportCard(
                 painter = painterResource(id = sport.thumbnail),
                 contentDescription = if (switchOn) "Enabled" else "Disabled",
                 modifier = Modifier
-                    .size(size = thumbSize)
+                    .fillMaxHeight()
+                    .width(99.dp)
                     .clip(
                         shape = RoundedCornerShape(percent = cornerSize)
                     )
