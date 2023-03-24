@@ -4,6 +4,9 @@ import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -19,12 +22,12 @@ import androidx.navigation.NavController
 import dj2al.example.buddybuilder.R
 import dj2al.example.buddybuilder.data.Resource
 import dj2al.example.buddybuilder.data.models.Event
+import dj2al.example.buddybuilder.data.models.Level
 import dj2al.example.buddybuilder.data.models.Sport
 import dj2al.example.buddybuilder.ui.AppScreen
 import dj2al.example.buddybuilder.ui.commons.FullScreenProgressbar
+import dj2al.example.buddybuilder.ui.commons.SmallEventCard
 import dj2al.example.buddybuilder.ui.commons.SportCard
-import dj2al.example.buddybuilder.ui.commons.myMutableList
-import dj2al.example.buddybuilder.ui.home.sports.SportsData
 import dj2al.example.buddybuilder.ui.material3.BottomSheetScaffold
 import dj2al.example.buddybuilder.ui.material3.rememberBottomSheetScaffoldState
 
@@ -149,7 +152,25 @@ fun DashboardSportsData(subscribedSports : List<Sport>, dashboardViewModel: Dash
 
 @Composable
 fun DashboardEventsData(incommingEvents : List<Event>, dashboardViewModel: DashboardViewModel, navController: NavController) {
-    ConstraintLayout(modifier = Modifier.heightIn(min = 400.dp)) {
-        Text(text = "Dashboard Events")
+    ConstraintLayout(modifier = Modifier.heightIn(min = 400.dp, max = 600.dp).fillMaxWidth()) {
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            contentPadding = PaddingValues(10.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            content = {
+                items(count = 20) {it ->
+                    SmallEventCard(Event(
+                        "Football",
+                        11630,
+                        2030,
+                        10,
+                        30,
+                        level = Level.Level2,
+                        22,
+                        "Beaujoire",
+                        "responsable"))
+                }
+            })
     }
 }

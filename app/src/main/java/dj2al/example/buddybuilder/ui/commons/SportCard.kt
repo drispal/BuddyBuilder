@@ -145,7 +145,6 @@ fun SportCardPreview() {
                 Sport(
                     "PingPong",
                     R.drawable.sports_pingpong,
-                    myMutableList
                 ),
                 true,
                 {
