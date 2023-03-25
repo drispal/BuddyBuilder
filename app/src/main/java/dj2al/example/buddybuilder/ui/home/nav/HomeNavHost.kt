@@ -2,92 +2,125 @@ package dj2al.example.buddybuilder.ui.home
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.fastMap
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import dj2al.example.buddybuilder.ui.AppScreen
-import dj2al.example.buddybuilder.ui.MenuItem
 import dj2al.example.buddybuilder.ui.commons.AppBar
 import dj2al.example.buddybuilder.ui.home.dashboard.DashboardScreen
 import dj2al.example.buddybuilder.ui.home.sports.SportsScreen
 import dj2al.example.buddybuilder.ui.home.user.UserScreen
 import dj2al.example.buddybuilder.ui.theme.BuddyBuilderTheme
+import dj2al.example.buddybuilder.R
+import dj2al.example.buddybuilder.ui.home.events.EventsScreen
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeNavHost() {
     val navController = rememberNavController()
-
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    val selectedItem = remember { mutableStateOf(MenuItem.values()[0])}
-    ModalNavigationDrawer(
-        drawerState = drawerState,
-        drawerContent = {
-            ModalDrawerSheet() {
-                Spacer(Modifier.height(12.dp))
-                MenuItem.values().forEach { item ->
-                    NavigationDrawerItem(
-                        icon = {
-                            Icon(
-                                painter = painterResource(id = item.icon),
-                                contentDescription = "")
-                        },
-                        label = { Text(text = item.title) },
-                        selected = item.index == selectedItem.value.index,
-                        onClick = {
-                            scope.launch { drawerState.close() }
-                            navController.navigate(item.screen.route)
-                            selectedItem.value = item
-                        },
-                        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
-                    )
-                }
-            }
-        },
-        content = {
-            Scaffold(
-                modifier = Modifier.fillMaxSize(),
-                topBar = {
-                    AppBar(
-                        onNavigationIconClick = {
-                            scope.launch {
-                                drawerState.open()
-                            }
-                        }
-                    )
-                },
-                content = {
-                    Surface(modifier = Modifier.padding(it)) {
-                        NavHost(
-                            navController = navController,
-                            startDestination = AppScreen.Home.route
-                        ) {
-                            composable(route = AppScreen.Home.route) {
-                                DashboardScreen(hiltViewModel(), navController)
-                            }
-                            composable(route = AppScreen.Sports.route) {
-                                SportsScreen(hiltViewModel())
-                            }
-                            composable(route = AppScreen.User.route) {
-                                UserScreen(hiltViewModel())
-                            }
-                        }
-                    }
-                },
-            )
-        }
+    var customTitle : String = ""
+
+    val MenuItems = listOf<AppScreen>(
+        AppScreen.Home,
+        AppScreen.User
     )
+    val selectedItem = remember { mutableStateOf(MenuItems[0])}
+
+        ModalNavigationDrawer(
+            drawerState = drawerState,
+            gesturesEnabled = false,
+            drawerContent = {
+                ModalDrawerSheet() {
+                    Spacer(Modifier.height(12.dp))
+                    MenuItems.forEach { item ->
+                        NavigationDrawerItem(
+                            icon = {
+                                Icon(
+                                    painter = painterResource(id = item.icon),
+                                    contentDescription = "")
+                            },
+                            label = { Text(text = stringResource(id = item.resourceId)) },
+                            selected = currentDestination?.hierarchy?.any { it.route == item.route } == true,
+                            onClick = {
+                                scope.launch { drawerState.close() }
+                                navController.navigate(item.route) {
+                                    // Pop up to the start destination of the graph to
+                                    // avoid building up a large stack of destinations
+                                    // on the back stack as users select items
+                                    popUpTo(navController.graph.findStartDestination().id)
+                                    // Avoid multiple copies of the same destination when
+                                    // reselecting the same item
+                                    launchSingleTop = true
+                                    // Restore state when reselecting a previously selected item
+                                    restoreState = true
+                                }
+                                selectedItem.value = item
+                                println(navController.backQueue.map { it -> it.destination })
+                            },
+                            modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+                        )
+                    }
+                }
+            },
+            content = {
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                    topBar = {
+                        if(currentDestination?.hierarchy?.any { current -> MenuItems.map { it -> it.route }.contains(current.route)} == true)
+                            AppBar(
+                                text = stringResource(id = selectedItem.value.resourceId),
+                                NavIcon = R.drawable.ic_menu,
+                                onNavigationClick = {scope.launch { drawerState.open() }}
+                            )
+                        else
+                            AppBar(
+                                text = customTitle,
+                                NavIcon = R.drawable.ic_arrow_back,
+                                onNavigationClick = {navController.popBackStack()}
+                            )
+                    },
+                    content = {
+                        Surface(modifier = Modifier.padding(it)) {
+                            NavHost(
+                                navController = navController,
+                                startDestination = AppScreen.Home.route
+                            ) {
+                                composable(route = AppScreen.Home.route) {
+                                    DashboardScreen(hiltViewModel(), navController)
+                                }
+                                composable(route = AppScreen.Sports.route) {
+                                    customTitle = "Sports"
+                                    SportsScreen(hiltViewModel())
+                                }
+                                composable(route = AppScreen.User.route) {
+                                    UserScreen(hiltViewModel())
+                                }
+                                composable(route = AppScreen.Events.route + "/{sportId}") {
+                                    customTitle = it.arguments?.getString("sportId").toString()
+                                    EventsScreen()
+                                }
+                            }
+                        }
+                    },
+                )
+            }
+        )
 }
 
 @Preview(showBackground = true)

@@ -39,9 +39,6 @@ import dj2al.example.buddybuilder.ui.theme.BuddyBuilderTheme
 fun DashboardScreen(viewModel: DashboardViewModel, navController: NavController) {
     val context = LocalContext.current
     Column() {
-        val contextForToast = LocalContext.current.applicationContext
-
-        val coroutineScope = rememberCoroutineScope()
 
         val scaffoldState = rememberBottomSheetScaffoldState()
 
@@ -138,12 +135,13 @@ fun DashboardSportsData(subscribedSports : List<Sport>, dashboardViewModel: Dash
                         sport,
                         false,
                         {
-                           //Todo navigate to events
+                           navController.navigate(AppScreen.Events.route + "/${sport.name}")
                         }
                     )
                 }
                 item {
-                    Button(onClick = {navController.navigate(AppScreen.Sports.route)}, modifier = Modifier.size(65.dp)) {
+                    Button(onClick = {
+                        navController.navigate(AppScreen.Sports.route)}, modifier = Modifier.size(65.dp)) {
                         Icon(painter = painterResource(id = R.drawable.ic_add), contentDescription = "", modifier = Modifier.scale(3f))
                     }
                 }

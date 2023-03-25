@@ -10,38 +10,34 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import dj2al.example.buddybuilder.R.*
 import dj2al.example.buddybuilder.ui.theme.BuddyBuilderTheme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBar(
-    onNavigationIconClick: () -> Unit
+    text : String,
+    NavIcon : Int,
+    onNavigationClick : () -> Unit
 ) {
     TopAppBar(
         title = {
             Text(
-                text = stringResource(id = string.app_name),
+                text = text,
                 style = MaterialTheme.typography.titleLarge
             )
         },
         navigationIcon = {
-            IconButton(onClick = onNavigationIconClick) {
+            IconButton(onClick = onNavigationClick) {
                 Icon(
-                    painter = painterResource(id = drawable.ic_menu),
-                    contentDescription = "Toggle drawer",
+                    painter = painterResource(id = NavIcon),
+                    contentDescription = "Nav",
                     modifier = Modifier.size(30.dp)
                 )
             }
         },
     )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun TopBarPreview() {
-    BuddyBuilderTheme {
-        AppBar {
-        }
-    }
 }

@@ -1,46 +1,18 @@
 package dj2al.example.buddybuilder.ui
 
+import androidx.annotation.StringRes
 import dj2al.example.buddybuilder.R
 
-sealed class AppScreen(val route : String) {
+sealed class AppScreen(val route : String, @StringRes val resourceId: Int, val icon : Int) {
 
-    object Auth : AppScreen("nav_auth") {
-        object Login : AppScreen("login")
-        object Signup : AppScreen("signup")
+    object Auth : AppScreen("nav_auth", R.string.app_name, R.drawable.ic_home) {
+        object Login : AppScreen("login", R.string.app_name, R.drawable.ic_home)
+        object Signup : AppScreen("signup", R.string.app_name, R.drawable.ic_home)
     }
 
-    object Home: AppScreen("home")
-    object Sports: AppScreen("sports")
-    object Events: AppScreen("events")
-    object User: AppScreen("user")
+    object Home: AppScreen("home",R.string.home, R.drawable.ic_home)
+    object Sports: AppScreen("sports", R.string.app_name, R.drawable.sports_soccer)
+    object Events: AppScreen("events", R.string.app_name, R.drawable.ic_agenda)
+    object User: AppScreen("user", R.string.user, R.drawable.ic_account_box)
 }
 
-enum class MenuItem(
-    val index: Int,
-    val title: String,
-    val screen: AppScreen,
-    val contentDescription: String,
-    val icon: Int
-) {
-    Home (
-        index = 0,
-        title = "Home",
-        screen = AppScreen.Home,
-        contentDescription = "Home",
-        icon = R.drawable.ic_home
-    ),
-    Sports (
-        index = 1,
-        title = "Sports",
-        screen = AppScreen.Sports,
-        contentDescription = "All sports",
-        icon = R.drawable.sports_soccer
-    ),
-    User(
-        index = 2,
-        title = "User",
-        screen = AppScreen.User,
-        contentDescription = "User profile",
-        icon = R.drawable.ic_account_box
-    )
-}
