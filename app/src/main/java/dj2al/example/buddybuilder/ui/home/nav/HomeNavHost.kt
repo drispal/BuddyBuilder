@@ -12,10 +12,7 @@ import androidx.compose.ui.util.fastMap
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.*
 import dj2al.example.buddybuilder.ui.AppScreen
 import dj2al.example.buddybuilder.ui.commons.AppBar
 import dj2al.example.buddybuilder.ui.home.dashboard.DashboardScreen
@@ -23,7 +20,9 @@ import dj2al.example.buddybuilder.ui.home.sports.SportsScreen
 import dj2al.example.buddybuilder.ui.home.user.UserScreen
 import dj2al.example.buddybuilder.ui.theme.BuddyBuilderTheme
 import dj2al.example.buddybuilder.R
+import dj2al.example.buddybuilder.ui.home.events.AddEventScreen
 import dj2al.example.buddybuilder.ui.home.events.EventsScreen
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -34,7 +33,9 @@ fun HomeNavHost() {
     val currentDestination = navBackStackEntry?.destination
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-    var customTitle : String = ""
+    val customTitle = remember {
+        mutableStateOf("")
+    }
 
     val MenuItems = listOf<AppScreen>(
         AppScreen.Home,
@@ -90,7 +91,7 @@ fun HomeNavHost() {
                             )
                         else
                             AppBar(
-                                text = customTitle,
+                                text = customTitle.value,
                                 NavIcon = R.drawable.ic_arrow_back,
                                 onNavigationClick = {navController.popBackStack()}
                             )
@@ -105,15 +106,26 @@ fun HomeNavHost() {
                                     DashboardScreen(hiltViewModel(), navController)
                                 }
                                 composable(route = AppScreen.Sports.route) {
-                                    customTitle = "Sports"
+                                    customTitle.value = "Sports"
                                     SportsScreen(hiltViewModel())
                                 }
                                 composable(route = AppScreen.User.route) {
                                     UserScreen(hiltViewModel())
                                 }
-                                composable(route = AppScreen.Events.route + "/{sportId}") {
-                                    customTitle = it.arguments?.getString("sportId").toString()
-                                    EventsScreen()
+
+                                navigation(
+                                    startDestination = AppScreen.Events.Home.route + "/{sportName}/{sportId}",
+                                    route = AppScreen.Events.route + "/{sportName}/{sportId}")
+                                {
+
+                                    composable(route = AppScreen.Events.Home.route + "/{sportName}/{sportId}") {
+                                        customTitle.value = it.arguments?.getString("sportName").toString()
+                                        EventsScreen(hiltViewModel(), navController)
+                                    }
+                                    composable(route = AppScreen.Events.Add.route + "/{sportName}/{sportId}") {
+                                        customTitle.value = "Add a ${it.arguments?.getString("sportName").toString()} event"
+                                        AddEventScreen(hiltViewModel(), navController)
+                                    }
                                 }
                             }
                         }

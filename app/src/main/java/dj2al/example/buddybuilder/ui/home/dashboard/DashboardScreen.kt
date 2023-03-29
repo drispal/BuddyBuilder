@@ -57,7 +57,7 @@ fun DashboardScreen(viewModel: DashboardViewModel, navController: NavController)
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "Comming soon",
+                        text = "Coming soon",
                         color = MaterialTheme.colorScheme.onPrimary
                     )
                 }
@@ -135,7 +135,7 @@ fun DashboardSportsData(subscribedSports : List<Sport>, dashboardViewModel: Dash
                         sport,
                         false,
                         {
-                           navController.navigate(AppScreen.Events.route + "/${sport.name}")
+                           navController.navigate(AppScreen.Events.route + "/${sport.name}/${sport.id}")
                         }
                     )
                 }
