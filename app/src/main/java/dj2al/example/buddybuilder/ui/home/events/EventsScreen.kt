@@ -49,7 +49,6 @@ fun EventsScreen(viewModel: EventsViewModel, navController: NavController) {
 @Composable
 fun EventsData(resource: List<Event>, eventsViewModel: EventsViewModel, navController: NavController)
 {
-    Text(text = "Events for ${eventsViewModel.sportName}")
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
