@@ -1,4 +1,4 @@
-package dj2al.example.buddybuilder.ui.commons
+ package dj2al.example.buddybuilder.ui.commons
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface

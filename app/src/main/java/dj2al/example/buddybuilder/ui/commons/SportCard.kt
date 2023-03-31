@@ -132,7 +132,6 @@ private fun animateAlignmentAsState(
     return derivedStateOf { BiasAlignment(horizontalBias = bias, verticalBias = 0f) }
 }
 
-val myMutableList = mutableListOf<String>() // instantiate an empty mutable list of strings
 
 
 @Preview(showBackground = true)
