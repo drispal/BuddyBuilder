@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -81,7 +82,7 @@ fun DashboardScreen(viewModel: DashboardViewModel, navController: NavController)
                                         FullScreenProgressbar()
                                     }
                                     is Resource.Success -> {
-                                        DashboardEventsData(incommingEvents = it.result.filter { u.result.subscribedEvents.contains(it.id) }, dashboardViewModel = viewModel, navController = navController)
+                                        DashboardEventsData(incomingEvents = it.result.filter { u.result.subscribedEvents.contains(it.id) }, dashboardViewModel = viewModel, navController = navController)
                                     }
                                 }
                             }
@@ -153,7 +154,7 @@ fun DashboardSportsData(subscribedSports : List<Sport>, dashboardViewModel: Dash
 }
 
 @Composable
-fun DashboardEventsData(incommingEvents : List<Event>, dashboardViewModel: DashboardViewModel, navController: NavController) {
+fun DashboardEventsData(incomingEvents : List<Event>, dashboardViewModel: DashboardViewModel, navController: NavController) {
     ConstraintLayout(modifier = Modifier
         .heightIn(min = 400.dp, max = 600.dp)
         .fillMaxWidth()) {
@@ -164,17 +165,8 @@ fun DashboardEventsData(incommingEvents : List<Event>, dashboardViewModel: Dashb
             verticalArrangement = Arrangement.spacedBy(10.dp),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
             content = {
-                items(count = 20) {it ->
-                    SmallEventCard(Event(
-                        "Football",
-                        11630,
-                        2030,
-                        10,
-                        30,
-                        level = Level.Level2,
-                        22,
-                        "Beaujoire",
-                        "responsable"))
+                items(incomingEvents) {it ->
+                    SmallEventCard(it)
                 }
             })
     }

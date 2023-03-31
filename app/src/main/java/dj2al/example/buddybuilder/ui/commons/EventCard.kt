@@ -25,6 +25,10 @@ import androidx.compose.ui.unit.sp
 import dj2al.example.buddybuilder.R
 import dj2al.example.buddybuilder.data.models.Event
 import dj2al.example.buddybuilder.data.models.Level
+import dj2al.example.buddybuilder.data.utils.getDay
+import dj2al.example.buddybuilder.data.utils.toDate
+import dj2al.example.buddybuilder.data.utils.toDateWithDay
+import dj2al.example.buddybuilder.data.utils.toTime
 import dj2al.example.buddybuilder.ui.theme.BuddyBuilderTheme
 
 
@@ -36,15 +40,6 @@ fun SmallEventCard(event: Event) {
             .width(200.dp)
             .height(77.dp)
     ) {
-        val jour = when(event.startTime/10000){
-            "1".toLong() -> "Lundi"
-            "2".toLong() -> "Mardi"
-            "3".toLong() -> "Mercredi"
-            "4".toLong() -> "Jeudi"
-            "5".toLong() -> "Vendredi"
-            "6".toLong() -> "Samedi"
-            else -> "Dimanche"
-        }
         Row (
             modifier = Modifier.padding(10.dp),
             verticalAlignment = Alignment.CenterVertically){
@@ -53,7 +48,7 @@ fun SmallEventCard(event: Event) {
                     fontWeight = FontWeight.Bold,
                     fontSize = 15.sp,
                     letterSpacing = 0.5.sp,)
-                Text(text = "$jour ${event.startTime%10000/100}h${event.startTime%100} - ${event.endTime%10000/100}h${event.endTime%100}",
+                Text(text = "${event.startTime.getDay()} ${event.startTime.toTime()} - ${event.endTime.toTime()}",
                     fontSize = 10.sp,)
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Spacer(modifier = Modifier.size(2.dp))
@@ -77,21 +72,12 @@ fun RegularEventCard(event: Event) {
             .fillMaxWidth()
             .height(80.dp)
     ) {
-        val jour = when(event.startTime/10000){
-            "1".toLong() -> "Lundi"
-            "2".toLong() -> "Mardi"
-            "3".toLong() -> "Mercredi"
-            "4".toLong() -> "Jeudi"
-            "5".toLong() -> "Vendredi"
-            "6".toLong() -> "Samedi"
-            else -> "Dimanche"
-        }
         Column (
             modifier = Modifier.padding(10.dp),
         ){
             Row(Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween) {
-                Text(text = "$jour ${event.startTime%10000/100}h${event.startTime%100} - ${event.endTime%10000/100}h${event.endTime%100}",
+                Text(text = "${event.startTime.toDate()} ${event.startTime.toTime()} - ${event.endTime.toTime()}",
                     fontSize = 25.sp,)
                 Row() {
                     Text(text = "niv.")
@@ -117,22 +103,13 @@ fun RegularEventCard(event: Event) {
 }
 
 @Composable
-fun LargeEventCard(event: Event) {
+fun ConfirmationEventCard(event: Event) {
     Card(
         shape = RoundedCornerShape(20.dp),
         modifier = Modifier
             .fillMaxWidth()
             .height(300.dp)
     ) {
-        val jour = when(event.startTime/10000){
-            "1".toLong() -> "Lundi"
-            "2".toLong() -> "Mardi"
-            "3".toLong() -> "Mercredi"
-            "4".toLong() -> "Jeudi"
-            "5".toLong() -> "Vendredi"
-            "6".toLong() -> "Samedi"
-            else -> "Dimanche"
-        }
         Column (
             modifier = Modifier.padding(10.dp,20.dp,10.dp,10.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -148,7 +125,7 @@ fun LargeEventCard(event: Event) {
                     Image(painter = painterResource(id = event.level.logo), contentDescription = "", Modifier.size(40.dp))
                 }
             }
-            Text(text = "$jour ${event.startTime%10000/100}h${event.startTime%100} - ${event.endTime%10000/100}h${event.endTime%100}",
+            Text(text = "${event.startTime.toDateWithDay()} ${event.startTime.toTime()} - ${event.endTime.toTime()}",
                 fontSize = 18.sp, modifier = Modifier.fillMaxWidth())
             Text(text = "S+1",
                 fontSize = 18.sp, modifier = Modifier.fillMaxWidth())
@@ -257,7 +234,7 @@ fun EventCardPreview() {
             SmallEventList(eventList = list)
             RegularEventList(eventList = list)
             Box(Modifier.padding(10.dp)) {
-                LargeEventCard(event = Event(
+                ConfirmationEventCard(event = Event(
                     "Football",
                     11630,
                     2030,

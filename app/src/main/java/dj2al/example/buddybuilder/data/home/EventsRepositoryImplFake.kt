@@ -33,6 +33,7 @@ class EventsRepositoryImplFake @Inject constructor(private val usersRepository: 
 
     override suspend fun addEvent(e: Event): Resource<Event> {
         events.add(e)
+        println(events)
         return Resource.Success(e)
     }
 

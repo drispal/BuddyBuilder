@@ -8,6 +8,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,6 +31,12 @@ import dj2al.example.buddybuilder.ui.commons.SportCard
 @Composable
 fun EventsScreen(viewModel: EventsViewModel, navController: NavController) {
     val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        println("allo")
+        viewModel.getEvents(viewModel.sportId)
+    }
+
     val events = viewModel.events.collectAsState()
     events.value?.let {
         when (it) {
@@ -40,6 +47,7 @@ fun EventsScreen(viewModel: EventsViewModel, navController: NavController) {
                 FullScreenProgressbar()
             }
             is Resource.Success -> {
+                println(it.result)
                 EventsData(resource = it.result, eventsViewModel = viewModel, navController = navController)
             }
         }

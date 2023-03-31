@@ -15,31 +15,31 @@ class SportsRepositoryImplFake @Inject constructor(): SportsRepository {
     init {
         sports.add(Sport(
             name = "Soccer",
-            thumbnail = R.drawable.logo,
+            thumbnail = R.drawable.sports_soccer,
         ))
         sports.add(Sport(
             name = "BasketBall",
-            thumbnail = R.drawable.logo,
+            thumbnail = R.drawable.sports_basket,
         ))
         sports.add(Sport(
-            name = "Hockey",
-            thumbnail = R.drawable.logo,
+            name = "Ski",
+            thumbnail = R.drawable.sports_ski,
         ))
         sports.add(Sport(
-            name = "Tennis",
-            thumbnail = R.drawable.logo,
+            name = "Swimming",
+            thumbnail = R.drawable.sports_swim,
         ))
         sports.add(Sport(
             name = "Volley",
-            thumbnail = R.drawable.logo,
+            thumbnail = R.drawable.sports_volley,
         ))
         sports.add(Sport(
             name = "Crossfit",
-            thumbnail = R.drawable.logo,
+            thumbnail = R.drawable.sports_muscu,
         ))
         sports.add(Sport(
-            name = "Running",
-            thumbnail = R.drawable.logo,
+            name = "Boxing",
+            thumbnail = R.drawable.sports_boxe,
         ))
 
     }

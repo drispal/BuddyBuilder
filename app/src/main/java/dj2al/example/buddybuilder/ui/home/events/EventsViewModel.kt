@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dj2al.example.buddybuilder.data.Resource
 import dj2al.example.buddybuilder.data.home.EventsRepository
+import dj2al.example.buddybuilder.data.home.UsersRepository
 import dj2al.example.buddybuilder.data.models.Event
 import dj2al.example.buddybuilder.data.models.Level
 import dj2al.example.buddybuilder.data.utils.currentDateTime
@@ -17,17 +18,18 @@ import javax.inject.Inject
 @HiltViewModel
 class EventsViewModel @Inject constructor(
     private val eventsRepository: EventsRepository,
+    private val usersRepository: UsersRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     val sportId = savedStateHandle.get<String>("sportId") ?: ""
     val sportName = savedStateHandle.get<String>("sportName") ?: ""
 
-    val startTime = MutableStateFlow<Long>(0)
-    val endTime = MutableStateFlow<Long>(0)
-    val minParticipants = MutableStateFlow<Int>(0)
-    val maxParticipants = MutableStateFlow<Int>(0)
-    val level = MutableStateFlow<Level>(Level.Level1)
+    val startTime = MutableStateFlow<Long>(currentDateTime)
+    val endTime = MutableStateFlow<Long>(currentDateTime)
+    val minParticipants = MutableStateFlow<Int>(1)
+    val maxParticipants = MutableStateFlow<Int>(2)
+    val level = MutableStateFlow<Level>(Level.Level2)
     val court = MutableStateFlow<String>("")
 
     private val _areInputsValid = MutableStateFlow(false)
@@ -60,6 +62,7 @@ class EventsViewModel @Inject constructor(
             endTime = endTime.value,
             minParticipants = minParticipants.value,
             maxParticipants = maxParticipants.value,
+            nbParticipants = 1,
             level = level.value,
             court = court.value,
             responsable = "TODO"
@@ -72,7 +75,7 @@ class EventsViewModel @Inject constructor(
         _manageEventResult.value = null
     }
 
-    private fun getEvents(sportId : String) = viewModelScope.launch {
+    fun getEvents(sportId : String) = viewModelScope.launch {
         _events.value = Resource.Loading
         _events.value = eventsRepository.getSportEvents(sportId)
     }
