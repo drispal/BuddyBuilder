@@ -6,4 +6,6 @@
     <string name="cancel">Cancel</string>
     <string name="home">Home</string>
     <string name="user">User</string>
+    <string name="lvl">lvl</string>
+    <string name="oops">Ooops</string>
 </resources>

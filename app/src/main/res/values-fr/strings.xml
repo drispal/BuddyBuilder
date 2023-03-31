@@ -7,4 +7,6 @@
     <string name="cancel">Annuler</string>
     <string name="home">Accueil</string>
     <string name="user">Utilisateur</string>
+    <string name="lvl">niv.</string>
+    <string name="oops">Oups</string>
 </resources>

@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.Group
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -80,7 +81,7 @@ fun RegularEventCard(event: Event) {
                 Text(text = "${event.startTime.toDate()} ${event.startTime.toTime()} - ${event.endTime.toTime()}",
                     fontSize = 25.sp,)
                 Row() {
-                    Text(text = "niv.")
+                    Text(text = stringResource(id = R.string.lvl))
                     Image(painter = painterResource(id = event.level.logo), contentDescription = "", Modifier.size(30.dp))
                 }
             }
@@ -121,7 +122,7 @@ fun ConfirmationEventCard(event: Event) {
                     fontSize = 25.sp,
                     letterSpacing = 0.5.sp,)
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(text = "niv.")
+                    Text(text = stringResource(id = R.string.lvl))
                     Image(painter = painterResource(id = event.level.logo), contentDescription = "", Modifier.size(40.dp))
                 }
             }
@@ -170,7 +171,7 @@ fun ConfirmationEventCard(event: Event) {
                     .clip(RoundedCornerShape(10.dp))
             ) {
                 Text(
-                    text = "Ooops...",
+                    text = stringResource(id = R.string.oops),
                     textAlign = TextAlign.Center,
                     style = TextStyle(
                         fontSize = 16.sp,
