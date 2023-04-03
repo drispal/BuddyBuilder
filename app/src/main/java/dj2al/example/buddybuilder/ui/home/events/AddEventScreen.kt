@@ -34,12 +34,11 @@ import com.marosseleng.compose.material3.datetimepickers.time.ui.dialog.TimePick
 import dj2al.example.buddybuilder.R
 import dj2al.example.buddybuilder.data.Resource
 import dj2al.example.buddybuilder.data.models.Level
+import dj2al.example.buddybuilder.data.utils.currentDateTime
 import dj2al.example.buddybuilder.data.utils.toDate
 import dj2al.example.buddybuilder.data.utils.toTime
 import kotlinx.coroutines.launch
 import java.time.*
-import java.time.LocalDateTime.ofInstant
-import java.time.ZonedDateTime.ofInstant
 
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalComposeUiApi::class,
@@ -72,218 +71,246 @@ fun AddEventScreen(viewModel: EventsViewModel, navController: NavController) {
         mutableStateOf(false)
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(20.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(10.dp)
+    Card(modifier = Modifier
+        .fillMaxWidth()
+        .wrapContentHeight()
+        .padding(20.dp),
+        shape = MaterialTheme.shapes.large,
+        elevation = CardDefaults.cardElevation(11.dp)
     ) {
-        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Text(text = stringResource(id = R.string.date) + " ")
-            Text(text = startTime.value.toDate(),
-                modifier = Modifier
-                    .clickable {
-                        isDateDialogShown = true
-                    }
-                    .border(1.dp, MaterialTheme.colorScheme.onSurface, shape = RoundedCornerShape(5.dp))
-                    .padding(5.dp)
-            )
-        }
-
-        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Text(text = stringResource(id = R.string.from) + " ")
-            Text(text = startTime.value.toTime(),
-                modifier = Modifier
-                    .clickable {
-                        isStartTimeDialogShown = true
-                    }
-                    .border(1.dp, MaterialTheme.colorScheme.onSurface, shape = RoundedCornerShape(5.dp))
-                    .padding(5.dp)
-            )
-            Text(text = " " + stringResource(id = R.string.to)+ " ")
-            Text(text = endTime.value.toTime(),
-                modifier = Modifier
-                    .clickable {
-                        isEndTimeDialogShown = true
-                    }
-                    .border(1.dp, MaterialTheme.colorScheme.onSurface, shape = RoundedCornerShape(5.dp))
-                    .padding(5.dp)
-            )
-        }
-
-        TextField(
-            value = if(minParticipants.value == -1) "" else minParticipants.value.toString(),
-            onValueChange = {
-                if(it.isNotEmpty() && it.isDigitsOnly()) {
-                    viewModel.minParticipants.value = it.toInt()
-                } else {
-                    viewModel.minParticipants.value = -1
-                }
-            },
-            label = {
-                if (minParticipants.value < 1) {
-                    Text(text = stringResource(id = R.string.min_req))
-                } else {
-                    Text(text = stringResource(id = R.string.min_pla))
-                }
-            },
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .onFocusEvent {
-                    if (it.isFocused) {
-                        coroutineScope.launch {
-                            bringIntoViewRequester.bringIntoView()
-                        }
-                    }
-                },
-            keyboardOptions = KeyboardOptions(
-                capitalization = KeyboardCapitalization.None,
-                autoCorrect = false,
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Next
-            ),
-            keyboardActions = KeyboardActions(
-                onNext = {
-                    viewModel.validateInputs()
-                    focusManager.moveFocus(FocusDirection.Next)
-                },
-            ),
-            maxLines = 1,
-            isError = minParticipants.value < 1
-        )
-
-        TextField(
-            value = if (maxParticipants.value == -1) "" else maxParticipants.value.toString(),
-            onValueChange = {
-                if (it.isNotEmpty() && it.isDigitsOnly()) {
-                    viewModel.maxParticipants.value = it.toInt()
-                } else {
-                    viewModel.maxParticipants.value = -1
-                }
-            },
-            label = {
-                if (maxParticipants.value < minParticipants.value) {
-                    Text(text = stringResource(id = R.string.max_pla_gre))
-                } else {
-                    Text(text = stringResource(id = R.string.max_pla))
-                }
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .onFocusEvent {
-                    if (it.isFocused) {
-                        coroutineScope.launch {
-                            bringIntoViewRequester.bringIntoView()
-                        }
-                    }
-                },
-            keyboardOptions = KeyboardOptions(
-                capitalization = KeyboardCapitalization.None,
-                autoCorrect = false,
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Next
-            ),
-            keyboardActions = KeyboardActions(
-                onNext = {
-                    viewModel.validateInputs()
-                    focusManager.moveFocus(FocusDirection.Next)
-                },
-            ),
-            maxLines = 1,
-            isError = maxParticipants.value < minParticipants.value
-        )
-
-        Row(modifier = Modifier.fillMaxWidth()) {
-            Image(painter = painterResource(id = level.value.logo), contentDescription = "")
-            Slider(
-                value = level.value.value.toFloat(),
-                onValueChange = {
-                    when(it) {
-                        1F -> viewModel.level.value = Level.Level1
-                        2F -> viewModel.level.value = Level.Level2
-                        3F -> viewModel.level.value = Level.Level3
-                    }
-                    viewModel.validateInputs()
-                },
-                valueRange = 1F..3F,
-                steps = 1,
-            )
-        }
-
-        TextField(
-            value = court.value,
-            onValueChange = {
-                viewModel.court.value = it
-            },
-            label = {
-                if (court.value.isEmpty()) {
-                    Text(text = stringResource(id = R.string.cou_req))
-                } else {
-                    Text(text = stringResource(id = R.string.cou))
-                }
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .onFocusEvent {
-                    if (it.isFocused) {
-                        coroutineScope.launch {
-                            bringIntoViewRequester.bringIntoView()
-                        }
-                    }
-                },
-            keyboardOptions = KeyboardOptions(
-                capitalization = KeyboardCapitalization.None,
-                autoCorrect = false,
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Next
-            ),
-            keyboardActions = KeyboardActions(
-                onNext = {
-                    viewModel.validateInputs()
-                    focusManager.moveFocus(FocusDirection.Next)
-                },
-            ),
-            maxLines = 1,
-            isError = court.value.isEmpty()
-        )
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
+                .padding(15.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(7.dp)
         ) {
-            addEventResult.value?.let {
-                when (it) {
-                    is Resource.Failure -> {
-                        Toast.makeText(context, it.exception.message, Toast.LENGTH_LONG).show()
-                    }
-                    is Resource.Success -> {
-                        LaunchedEffect(Unit) {
-                            navController.popBackStack()
-                            viewModel.resetResource()
+            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Text(text = stringResource(id = R.string.date) + " ", style = MaterialTheme.typography.bodyMedium)
+                Text(text = startTime.value.toDate(),
+                    modifier = Modifier
+                        .clickable {
+                            isDateDialogShown = true
                         }
+                        .border(
+                            1.dp,
+                            if(startTime.value > currentDateTime) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.error,
+                            shape = RoundedCornerShape(5.dp),
+                        )
+                        .padding(5.dp),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
+
+            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Text(text = stringResource(id = R.string.from) + " ", style = MaterialTheme.typography.bodyMedium)
+                Text(text = startTime.value.toTime(),
+                    modifier = Modifier
+                        .clickable {
+                            isStartTimeDialogShown = true
+                        }
+                        .border(
+                            1.dp,
+                            if(endTime.value > startTime.value) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.error,
+                            shape = RoundedCornerShape(5.dp)
+                        )
+                        .padding(5.dp),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Text(text = " " + stringResource(id = R.string.to)+ " ", style = MaterialTheme.typography.bodyMedium)
+                Text(text = endTime.value.toTime(),
+                    modifier = Modifier
+                        .clickable {
+                            isEndTimeDialogShown = true
+                        }
+                        .border(
+                            1.dp,
+                            if(endTime.value > startTime.value) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.error,
+                            shape = RoundedCornerShape(5.dp)
+                        )
+                        .padding(5.dp),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
+
+            TextField(
+                value = if(minParticipants.value == -1) "" else minParticipants.value.toString(),
+                onValueChange = {
+                    if(it.isNotEmpty() && it.isDigitsOnly()) {
+                        viewModel.minParticipants.value = it.toInt()
+                    } else {
+                        viewModel.minParticipants.value = -1
                     }
-                    Resource.Loading -> {
-                        CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                },
+                label = {
+                    if (minParticipants.value < 1) {
+                        Text(text = stringResource(id = R.string.min_req), style = MaterialTheme.typography.bodyMedium)
+                    } else {
+                        Text(text = stringResource(id = R.string.min_pla), style = MaterialTheme.typography.bodyMedium)
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .onFocusEvent {
+                        if (it.isFocused) {
+                            coroutineScope.launch {
+                                bringIntoViewRequester.bringIntoView()
+                            }
+                        }
+                    },
+                keyboardOptions = KeyboardOptions(
+                    capitalization = KeyboardCapitalization.None,
+                    autoCorrect = false,
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        viewModel.validateInputs()
+                        focusManager.moveFocus(FocusDirection.Next)
+                    },
+                ),
+                maxLines = 1,
+                isError = minParticipants.value < 1,
+            )
+
+            TextField(
+                value = if (maxParticipants.value == -1) "" else maxParticipants.value.toString(),
+                onValueChange = {
+                    if (it.isNotEmpty() && it.isDigitsOnly()) {
+                        viewModel.maxParticipants.value = it.toInt()
+                    } else {
+                        viewModel.maxParticipants.value = -1
+                    }
+                },
+                label = {
+                    if (maxParticipants.value < minParticipants.value) {
+                        Text(text = stringResource(id = R.string.max_pla_gre), style = MaterialTheme.typography.bodyMedium)
+                    } else {
+                        Text(text = stringResource(id = R.string.max_pla), style = MaterialTheme.typography.bodyMedium)
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .onFocusEvent {
+                        if (it.isFocused) {
+                            coroutineScope.launch {
+                                bringIntoViewRequester.bringIntoView()
+                            }
+                        }
+                    },
+                keyboardOptions = KeyboardOptions(
+                    capitalization = KeyboardCapitalization.None,
+                    autoCorrect = false,
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        viewModel.validateInputs()
+                        focusManager.moveFocus(FocusDirection.Next)
+                    },
+                ),
+                maxLines = 1,
+                isError = maxParticipants.value < minParticipants.value
+            )
+
+            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Image(painter = painterResource(id = level.value.logo), contentDescription = "", Modifier.size(40.dp))
+                Slider(
+                    value = level.value.value.toFloat(),
+                    onValueChange = {
+                        when(it) {
+                            1F -> viewModel.level.value = Level.Level1
+                            2F -> viewModel.level.value = Level.Level2
+                            3F -> viewModel.level.value = Level.Level3
+                        }
+                        viewModel.validateInputs()
+                    },
+                    valueRange = 1F..3F,
+                    steps = 1,
+                    colors = SliderDefaults.colors(
+                        thumbColor = MaterialTheme.colorScheme.primary,
+                        activeTrackColor = MaterialTheme.colorScheme.primary,
+                        inactiveTrackColor = MaterialTheme.colorScheme.surface
+                    ),
+                )
+            }
+
+            TextField(
+                value = court.value,
+                onValueChange = {
+                    viewModel.court.value = it
+                },
+                label = {
+                    if (court.value.isEmpty()) {
+                        Text(text = stringResource(id = R.string.cou_req), style = MaterialTheme.typography.bodyMedium)
+                    } else {
+                        Text(text = stringResource(id = R.string.cou), style = MaterialTheme.typography.bodyMedium)
+                    }
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .onFocusEvent {
+                        if (it.isFocused) {
+                            coroutineScope.launch {
+                                bringIntoViewRequester.bringIntoView()
+                            }
+                        }
+                    },
+                keyboardOptions = KeyboardOptions(
+                    capitalization = KeyboardCapitalization.None,
+                    autoCorrect = false,
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        viewModel.validateInputs()
+                        focusManager.moveFocus(FocusDirection.Next)
+                    },
+                ),
+                maxLines = 1,
+                isError = court.value.isEmpty()
+            )
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                addEventResult.value.let {
+                    when (it) {
+                        is Resource.Failure -> {
+                            Toast.makeText(context, it.exception.message, Toast.LENGTH_LONG).show()
+                        }
+                        is Resource.Success -> {
+                            LaunchedEffect(Unit) {
+                                navController.popBackStack()
+                                viewModel.resetResource()
+                            }
+                        }
+                        Resource.Loading -> {
+                            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                        }
+                        null -> Spacer(modifier = Modifier.height(20.dp))
                     }
                 }
             }
 
-        }
-
-        Button(
-            onClick = {
-                viewModel.addEvent()
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .bringIntoViewRequester(bringIntoViewRequester),
-            enabled = areInputsValid.value
-        ) {
-            Text(
-                text = stringResource(id = R.string.let_pla),
-                style = MaterialTheme.typography.titleMedium
-            )
+            Button(
+                onClick = {
+                    viewModel.addEvent()
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .bringIntoViewRequester(bringIntoViewRequester),
+                enabled = areInputsValid.value
+            ) {
+                Text(
+                    text = stringResource(id = R.string.let_pla),
+                    style = MaterialTheme.typography.titleLarge
+                )
+            }
         }
     }
 

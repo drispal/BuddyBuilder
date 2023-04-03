@@ -36,7 +36,7 @@ import dj2al.example.buddybuilder.ui.theme.BuddyBuilderTheme
 @Composable
 fun SmallEventCard(event: Event) {
     Card(
-        shape = RoundedCornerShape(20.dp),
+        shape = MaterialTheme.shapes.large,
         modifier = Modifier
             .width(200.dp)
             .height(77.dp)
@@ -68,7 +68,7 @@ fun SmallEventCard(event: Event) {
 @Composable
 fun RegularEventCard(event: Event) {
     Card(
-        shape = RoundedCornerShape(20.dp),
+        shape = MaterialTheme.shapes.large,
         modifier = Modifier
             .fillMaxWidth()
             .height(80.dp)
@@ -106,7 +106,7 @@ fun RegularEventCard(event: Event) {
 @Composable
 fun ConfirmationEventCard(event: Event) {
     Card(
-        shape = RoundedCornerShape(20.dp),
+        shape = MaterialTheme.shapes.large,
         modifier = Modifier
             .fillMaxWidth()
             .height(300.dp)

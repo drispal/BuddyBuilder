@@ -17,7 +17,7 @@
     <string name="coming">Coming soon</string>
     <string name="date">Date :</string>
     <string name="from">From : </string>
-    <string name="to"> to : </string>
+    <string name="to"> to </string>
     <string name="min_req">Minimum players required</string>
     <string name="min_pla">Minimum players</string>
     <string name="max_pla_gre">Maximum players (must be greater than minimum)</string>
