@@ -4,16 +4,33 @@ import dj2al.example.buddybuilder.data.Resource
 import dj2al.example.buddybuilder.data.models.Event
 import dj2al.example.buddybuilder.data.models.Sport
 import dj2al.example.buddybuilder.data.models.User
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 class EventsRepositoryImplFake @Inject constructor(private val usersRepository: UsersRepositoryImplFake): EventsRepository {
 
     private val events : MutableList<Event> = mutableListOf()
-    private val currentUser : User = usersRepository.users[0]
+    private val _user = MutableStateFlow<Resource<User>?>(null)
+    val sports: StateFlow<Resource<User>?> = _user
 
     override suspend fun getUserEvents(): Resource<List<Event>> {
-        val userEvents = events.filter{ currentUser.subscribedEvents.contains(it.id) }
-        return Resource.Success(userEvents)
+        _user.value = usersRepository.getUser()
+        _user.value?.let { u ->
+            when (u) {
+                is Resource.Failure -> {
+                    return u
+                }
+                is Resource.Loading -> {
+                    return u
+                }
+                is Resource.Success -> {
+                    val userEvents = events.filter { u.result.subscribedEvents.contains(it.id) }
+                    return Resource.Success(userEvents)
+                }
+            }
+        }
+        return Resource.Failure(Exception("User not found"))
     }
 
     override suspend fun getSportEvents(sportId : String): Resource<List<Event>> {
@@ -33,7 +50,7 @@ class EventsRepositoryImplFake @Inject constructor(private val usersRepository: 
 
     override suspend fun addEvent(e: Event): Resource<Event> {
         events.add(e)
-        println(events)
+        usersRepository.users[0].subscribedEvents.add(e.id)
         return Resource.Success(e)
     }
 

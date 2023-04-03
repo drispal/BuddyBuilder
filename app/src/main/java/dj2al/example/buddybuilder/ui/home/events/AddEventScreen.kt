@@ -77,8 +77,8 @@ fun AddEventScreen(viewModel: EventsViewModel, navController: NavController) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        Row(modifier = Modifier.fillMaxWidth()) {
-            Text(text = "Date: ")
+        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Text(text = "Date : ")
             Text(text = startTime.value.toDate(),
                 modifier = Modifier
                     .clickable {
@@ -89,8 +89,8 @@ fun AddEventScreen(viewModel: EventsViewModel, navController: NavController) {
             )
         }
 
-        Row(modifier = Modifier.fillMaxWidth()) {
-            Text(text = "From : ")
+        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Text(text = "From ")
             Text(text = startTime.value.toTime(),
                 modifier = Modifier
                     .clickable {
@@ -99,7 +99,7 @@ fun AddEventScreen(viewModel: EventsViewModel, navController: NavController) {
                     .border(1.dp, MaterialTheme.colorScheme.onSurface, shape = RoundedCornerShape(5.dp))
                     .padding(5.dp)
             )
-            Text(text = " to : ")
+            Text(text = " to ")
             Text(text = endTime.value.toTime(),
                 modifier = Modifier
                     .clickable {

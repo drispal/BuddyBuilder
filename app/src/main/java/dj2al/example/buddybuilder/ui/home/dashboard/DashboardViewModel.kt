@@ -49,7 +49,7 @@ class DashboardViewModel @Inject constructor(
 
     private fun getEvents() = viewModelScope.launch {
         _events.value = Resource.Loading
-        _events.value = eventsRepository.getUserEvents()
+        _events.value = eventsRepository.getAllEvents()
     }
 
 }

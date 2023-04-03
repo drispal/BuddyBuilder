@@ -33,7 +33,6 @@ fun EventsScreen(viewModel: EventsViewModel, navController: NavController) {
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {
-        println("allo")
         viewModel.getEvents(viewModel.sportId)
     }
 
@@ -47,7 +46,7 @@ fun EventsScreen(viewModel: EventsViewModel, navController: NavController) {
                 FullScreenProgressbar()
             }
             is Resource.Success -> {
-                println(it.result)
+                println("Event data= ${it.result}")
                 EventsData(resource = it.result, eventsViewModel = viewModel, navController = navController)
             }
         }

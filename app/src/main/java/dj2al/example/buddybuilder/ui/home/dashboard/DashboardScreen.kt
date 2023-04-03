@@ -44,6 +44,8 @@ fun DashboardScreen(viewModel: DashboardViewModel, navController: NavController)
         val scaffoldState = rememberBottomSheetScaffoldState()
 
         val user = viewModel.user.collectAsState()
+        val sports = viewModel.sports.collectAsState()
+        val events = viewModel.events.collectAsState()
 
         BottomSheetScaffold(
             scaffoldState = scaffoldState,
@@ -72,7 +74,6 @@ fun DashboardScreen(viewModel: DashboardViewModel, navController: NavController)
                             FullScreenProgressbar()
                         }
                         is Resource.Success -> {
-                            val events = viewModel.events.collectAsState()
                             events.value?.let {
                                 when (it) {
                                     is Resource.Failure -> {
@@ -82,6 +83,8 @@ fun DashboardScreen(viewModel: DashboardViewModel, navController: NavController)
                                         FullScreenProgressbar()
                                     }
                                     is Resource.Success -> {
+                                        println("DashBoard = ${it.result}")
+                                        println("DashBoard filter = ${u.result.subscribedEvents}")
                                         DashboardEventsData(incomingEvents = it.result.filter { u.result.subscribedEvents.contains(it.id) }, dashboardViewModel = viewModel, navController = navController)
                                     }
                                 }
@@ -101,7 +104,6 @@ fun DashboardScreen(viewModel: DashboardViewModel, navController: NavController)
                         FullScreenProgressbar()
                     }
                     is Resource.Success -> {
-                        val sports = viewModel.sports.collectAsState()
                         sports.value?.let {
                             when (it) {
                                 is Resource.Failure -> {
