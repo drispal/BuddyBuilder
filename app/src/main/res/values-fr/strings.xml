@@ -9,4 +9,10 @@
     <string name="user">Utilisateur</string>
     <string name="lvl">niv.</string>
     <string name="oops">Oups</string>
+    <string name="imdown">Je suis chaud</string>
+    <string name="court">Terrain :</string>
+    <string name="sub">abonnés :</string>
+    <string name="available">disponible :</string>
+    <string name="week_prevision">S+1</string>
+    <string name="delete_profile">Supprimer votre profil?</string>
 </resources>

@@ -8,4 +8,11 @@
     <string name="user">User</string>
     <string name="lvl">lvl</string>
     <string name="oops">Ooops</string>
+    <string name="imdown">I\'m downnn</string>
+    <string name="court">Court :</string>
+    <string name="sub">subscribed :</string>
+    <string name="available">available :</string>
+    <string name="week_prevision">W+1</string>
+    <string name="delete_profile">Delete your profile?</string>
 </resources>
+
