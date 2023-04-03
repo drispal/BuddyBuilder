@@ -29,4 +29,11 @@
     <string name="sel_sta_dat">Choisis une date de départ</string>
     <string name="sel_sta_tim">Choisis une heure de départ</string>
     <string name="sel_end_tim">Choisis une heure de fin</string>
+    <string name="soccer">Football</string>
+    <string name="basketball">BasketBall</string>
+    <string name="ski">Ski</string>
+    <string name="swimming">Natation</string>
+    <string name="volley">Volley</string>
+    <string name="crossfit">Crossfit</string>
+    <string name="boxing">Boxe</string>
 </resources>

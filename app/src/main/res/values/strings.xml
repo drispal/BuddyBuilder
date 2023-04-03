@@ -28,5 +28,12 @@
     <string name="sel_sta_dat">Select start date</string>
     <string name="sel_sta_tim">Select start time</string>
     <string name="sel_end_tim">Select end time</string>
+    <string name="soccer">Soccer</string>
+    <string name="basketball">BasketBall</string>
+    <string name="ski">Ski</string>
+    <string name="swimming">Swimming</string>
+    <string name="volley">Volley</string>
+    <string name="crossfit">Crossfit</string>
+    <string name="boxing">Boxing</string>
 </resources>
 
