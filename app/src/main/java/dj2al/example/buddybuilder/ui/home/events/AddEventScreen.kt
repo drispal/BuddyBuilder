@@ -22,6 +22,7 @@ import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
@@ -30,6 +31,7 @@ import androidx.core.text.isDigitsOnly
 import androidx.navigation.NavController
 import com.marosseleng.compose.material3.datetimepickers.date.ui.dialog.DatePickerDialog
 import com.marosseleng.compose.material3.datetimepickers.time.ui.dialog.TimePickerDialog
+import dj2al.example.buddybuilder.R
 import dj2al.example.buddybuilder.data.Resource
 import dj2al.example.buddybuilder.data.models.Level
 import dj2al.example.buddybuilder.data.utils.toDate
@@ -78,7 +80,7 @@ fun AddEventScreen(viewModel: EventsViewModel, navController: NavController) {
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         Row(modifier = Modifier.fillMaxWidth()) {
-            Text(text = "Date: ")
+            Text(text = stringResource(id = R.string.date))
             Text(text = startTime.value.toDate(),
                 modifier = Modifier
                     .clickable {
@@ -90,7 +92,7 @@ fun AddEventScreen(viewModel: EventsViewModel, navController: NavController) {
         }
 
         Row(modifier = Modifier.fillMaxWidth()) {
-            Text(text = "From : ")
+            Text(text = stringResource(id = R.string.from))
             Text(text = startTime.value.toTime(),
                 modifier = Modifier
                     .clickable {
@@ -99,7 +101,7 @@ fun AddEventScreen(viewModel: EventsViewModel, navController: NavController) {
                     .border(1.dp, MaterialTheme.colorScheme.onSurface, shape = RoundedCornerShape(5.dp))
                     .padding(5.dp)
             )
-            Text(text = " to : ")
+            Text(text = stringResource(id = R.string.to))
             Text(text = endTime.value.toTime(),
                 modifier = Modifier
                     .clickable {
@@ -121,9 +123,9 @@ fun AddEventScreen(viewModel: EventsViewModel, navController: NavController) {
             },
             label = {
                 if (minParticipants.value < 1) {
-                    Text(text = "Minimum players required")
+                    Text(text = stringResource(id = R.string.min_req))
                 } else {
-                    Text(text = "Minimum players")
+                    Text(text = stringResource(id = R.string.min_pla))
                 }
             },
             modifier = Modifier
@@ -162,9 +164,9 @@ fun AddEventScreen(viewModel: EventsViewModel, navController: NavController) {
             },
             label = {
                 if (maxParticipants.value < minParticipants.value) {
-                    Text(text = "Maximum players (must be greater than minimum)")
+                    Text(text = stringResource(id = R.string.max_pla_gre))
                 } else {
-                    Text(text = "Maximum players")
+                    Text(text = stringResource(id = R.string.max_pla))
                 }
             },
             modifier = Modifier
@@ -216,9 +218,9 @@ fun AddEventScreen(viewModel: EventsViewModel, navController: NavController) {
             },
             label = {
                 if (court.value.isEmpty()) {
-                    Text(text = "Court required")
+                    Text(text = stringResource(id = R.string.cou_req))
                 } else {
-                    Text(text = "Court")
+                    Text(text = stringResource(id = R.string.cou))
                 }
             },
             modifier = Modifier
@@ -279,7 +281,7 @@ fun AddEventScreen(viewModel: EventsViewModel, navController: NavController) {
             enabled = areInputsValid.value
         ) {
             Text(
-                text = "Let's Play!",
+                text = stringResource(id = R.string.let_pla),
                 style = MaterialTheme.typography.titleMedium
             )
         }
@@ -298,7 +300,7 @@ fun AddEventScreen(viewModel: EventsViewModel, navController: NavController) {
                 isDateDialogShown = false
                 viewModel.validateInputs()
             },
-            title = { Text(text = "Select start date") }
+            title = { Text(text = stringResource(id = R.string.sel_sta_dat)) }
         )
     }
     if (isStartTimeDialogShown) {
@@ -310,7 +312,7 @@ fun AddEventScreen(viewModel: EventsViewModel, navController: NavController) {
                 isStartTimeDialogShown = false
                 viewModel.validateInputs()
             },
-            title = { Text(text = "Select start time") }
+            title = { Text(text = stringResource(id = R.string.sel_sta_tim)) }
         )
     }
 
@@ -323,7 +325,7 @@ fun AddEventScreen(viewModel: EventsViewModel, navController: NavController) {
                 isEndTimeDialogShown = false
                 viewModel.validateInputs()
             },
-            title = { Text(text = "Select end time") }
+            title = { Text(text = stringResource(id = R.string.sel_end_tim)) }
         )
     }
 }

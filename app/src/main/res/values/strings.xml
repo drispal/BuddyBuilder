@@ -14,5 +14,19 @@
     <string name="available">available :</string>
     <string name="week_prevision">W+1</string>
     <string name="delete_profile">Delete your profile?</string>
+    <string name="coming">Coming soon</string>
+    <string name="date">Date :</string>
+    <string name="from">From : </string>
+    <string name="to"> to : </string>
+    <string name="min_req">Minimum players required</string>
+    <string name="min_pla">Minimum players</string>
+    <string name="max_pla_gre">Maximum players (must be greater than minimum)</string>
+    <string name="max_pla">Maximum players</string>
+    <string name="cou">Court</string>
+    <string name="cou_req">Court required</string>
+    <string name="let_pla">Let\'s play</string>
+    <string name="sel_sta_dat">Select start date</string>
+    <string name="sel_sta_tim">Select start time</string>
+    <string name="sel_end_tim">Select end time</string>
 </resources>
 
