@@ -35,5 +35,6 @@
     <string name="volley">Volley</string>
     <string name="crossfit">Crossfit</string>
     <string name="boxing">Boxing</string>
+    <string name="add_eve">Add an event for </string>
 </resources>
 

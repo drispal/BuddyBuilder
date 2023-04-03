@@ -16,7 +16,7 @@
     <string name="week_prevision">S+1</string>
     <string name="delete_profile">Supprimer votre profil?</string>
     <string name="coming">Ça arrive bientôt</string>
-    <string name="date">Date :</string>
+    <string name="date">Date : </string>
     <string name="from">De : </string>
     <string name="to"> jusque : </string>
     <string name="min_req">Un minimum de joueurs est requis</string>
@@ -25,7 +25,7 @@
     <string name="max_pla">Joueurs maximum</string>
     <string name="cou">Terrain</string>
     <string name="cou_req">Terrain requis</string>
-    <string name="let_pla">Allons jouer</string>
+    <string name="let_pla">C\'est parti</string>
     <string name="sel_sta_dat">Choisis une date de départ</string>
     <string name="sel_sta_tim">Choisis une heure de départ</string>
     <string name="sel_end_tim">Choisis une heure de fin</string>
@@ -36,4 +36,5 @@
     <string name="volley">Volley</string>
     <string name="crossfit">Crossfit</string>
     <string name="boxing">Boxe</string>
+    <string name="add_eve">Créer un évènement de</string>
 </resources>
