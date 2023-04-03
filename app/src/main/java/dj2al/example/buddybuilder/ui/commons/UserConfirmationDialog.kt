@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import dj2al.example.buddybuilder.R
 import dj2al.example.buddybuilder.R.string
 import dj2al.example.buddybuilder.ui.theme.BuddyBuilderTheme
 
@@ -55,7 +56,7 @@ fun UserConfirmationDialogPreview() {
             modifier = Modifier
                 .fillMaxSize()
         ) {
-            UserConfirmationDialog(dialogText = "Delete your profile ?") { }
+            UserConfirmationDialog(dialogText = stringResource(id = R.string.delete_profile)) { }
         }
     }
 }

@@ -123,7 +123,7 @@ fun HomeNavHost() {
                                         EventsScreen(hiltViewModel(), navController)
                                     }
                                     composable(route = AppScreen.Events.Add.route + "/{sportName}/{sportId}") {
-                                        customTitle.value = "Add a ${it.arguments?.getString("sportName").toString()} event"
+                                        customTitle.value =  stringResource(id = R.string.add_eve) + " " + "${it.arguments?.getString("sportName").toString()}"
                                         AddEventScreen(hiltViewModel(), navController)
                                     }
                                 }

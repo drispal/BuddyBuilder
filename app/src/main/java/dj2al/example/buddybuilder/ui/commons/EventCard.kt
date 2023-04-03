@@ -128,23 +128,23 @@ fun ConfirmationEventCard(event: Event) {
             }
             Text(text = "${event.startTime.toDateWithDay()} ${event.startTime.toTime()} - ${event.endTime.toTime()}",
                 fontSize = 18.sp, modifier = Modifier.fillMaxWidth())
-            Text(text = "S+1",
+            Text(text = stringResource(id = R.string.week_prevision),
                 fontSize = 18.sp, modifier = Modifier.fillMaxWidth())
             Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
                 Spacer(modifier = Modifier.size(2.dp))
                 Image(painter = painterResource(id = R.drawable.ic_group), contentDescription = "", Modifier.size(25.dp))
                 Spacer(modifier = Modifier.size(8.dp))
-                Text(text = "disponible : ${event.maxParticipants.toString()}",
+                Text(text = stringResource(id = R.string.available)+ "${event.maxParticipants.toString()}",
                     fontWeight = FontWeight.Bold,
                     fontSize = 15.sp,)
                 Spacer(modifier = Modifier.size(10.dp))
                 Image(painter = painterResource(id = R.drawable.ic_group), contentDescription = "", Modifier.size(25.dp))
                 Spacer(modifier = Modifier.size(8.dp))
-                Text(text = "subscribed : ${event.nbParticipants.toString()}",
+                Text(text = stringResource(id = R.string.sub)+" ${event.nbParticipants.toString()}",
                     fontWeight = FontWeight.Bold,
                     fontSize = 15.sp,)
             }
-            Text(text = "Court : ${event.court}",
+            Text(text = stringResource(id = R.string.court) + " ${event.court}",
                 fontSize = 18.sp, modifier = Modifier.fillMaxWidth())
             Spacer(modifier = Modifier.size(20.dp))
             ElevatedButton(
@@ -155,7 +155,7 @@ fun ConfirmationEventCard(event: Event) {
                     .clip(RoundedCornerShape(10.dp))
             ) {
                 Text(
-                    text = "I'm DOWN !",
+                    text = stringResource(id = R.string.imdown),
                     textAlign = TextAlign.Center,
                     style = TextStyle(
                         fontSize = 16.sp,
