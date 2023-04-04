@@ -17,34 +17,33 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
-    private val sportsRepository: SportsRepository,
     private val eventsRepository: EventsRepository,
     private val usersRepository: UsersRepository
 ) : ViewModel() {
-    
-    private val _sports = MutableStateFlow<Resource<List<Sport>>?>(null)
-    val sports: StateFlow<Resource<List<Sport>>?> = _sports
 
     private val _events = MutableStateFlow<Resource<List<Event>>?>(null)
     val events: StateFlow<Resource<List<Event>>?> = _events
+
+    private val _myEvents = MutableStateFlow<Resource<List<Event>>?>(null)
+    val myEvents: StateFlow<Resource<List<Event>>?> = _myEvents
 
     private val _user = MutableStateFlow<Resource<User>?>(null)
     val user: StateFlow<Resource<User>?> = _user
     
     init {
-        getSports()
         getUser()
         getEvents()
-    }
-
-    private fun getSports() = viewModelScope.launch {
-        _sports.value = Resource.Loading
-        _sports.value = sportsRepository.getSports()
+        getMyEvents()
     }
 
     private fun getUser() = viewModelScope.launch {
         _user.value = Resource.Loading
         _user.value = usersRepository.getUser()
+    }
+
+    private fun getMyEvents() = viewModelScope.launch {
+        _myEvents.value = Resource.Loading
+        _myEvents.value = eventsRepository.getUserEvents()
     }
 
     private fun getEvents() = viewModelScope.launch {

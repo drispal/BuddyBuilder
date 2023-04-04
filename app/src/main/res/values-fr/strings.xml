@@ -37,4 +37,7 @@
     <string name="crossfit">Crossfit</string>
     <string name="boxing">Boxe</string>
     <string name="add_eve">Créer un évènement de</string>
+    <string name="my_events">On vous y attend...</string>
+    <string name="my_sport_title">Mes sports</string>
+    <string name="sport_title">Sports</string>
 </resources>

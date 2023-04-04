@@ -12,7 +12,10 @@ import javax.inject.Inject
 
 
 
-class SportsRepositoryImplFake @Inject constructor(@ApplicationContext private val context: Context): SportsRepository {
+class SportsRepositoryImplFake @Inject constructor(
+    @ApplicationContext private val context: Context,
+    private val usersRepository: UsersRepositoryImplFake
+    ): SportsRepository {
 
     private val sports : MutableList<Sport> = mutableListOf()
 
@@ -50,6 +53,12 @@ class SportsRepositoryImplFake @Inject constructor(@ApplicationContext private v
 
     override suspend fun getSports(): Resource<List<Sport>> {
         return Resource.Success(sports)
+    }
+
+    override suspend fun getMySports(): Resource<List<Sport>> {
+        val mySports = sports.filter { usersRepository.users[0].subscribedSports.contains( it.id ) }
+        println("RepoSports mysports : ${usersRepository.users[0].subscribedSports}")
+        return Resource.Success(mySports)
     }
 
     override suspend fun addSport(sport: Sport): Resource<List<Sport>> {

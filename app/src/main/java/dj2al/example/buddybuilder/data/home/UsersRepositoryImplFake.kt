@@ -58,34 +58,30 @@ class UsersRepositoryImplFake @Inject constructor(): UsersRepository {
         return Resource.Success(true)
     }
 
-    override suspend fun addEventToUser(uId: String, eId: String): Resource<User> {
-        val index = users.indexOfFirst { it.id == uId }
-        users[index].subscribedEvents.add(eId)
+    override suspend fun addEventToUser(eId: String): Resource<User> {
+        users[0].subscribedEvents.add(eId)
         //println("Repo : ${users}")
-        return Resource.Success(users[index])
+        return Resource.Success(users[0])
     }
 
-    override suspend fun addSportToUser(uId: String, sId: String): Resource<User> {
-        val index = users.indexOfFirst { it.id == uId }
-        users[index].subscribedSports.add(sId)
+    override suspend fun addSportToUser(sId: String): Resource<User> {
+        users[0].subscribedSports.add(sId)
         //println("Repo : ${users}")
-        return Resource.Success(users[index])
+        return Resource.Success(users[0])
     }
 
-    override suspend fun removeSportFromUser(uId: String, sId: String): Resource<User> {
-        val indexUser = users.indexOfFirst { it.id == uId }
-        val indexSport = users[indexUser].subscribedSports.indexOfFirst { it == sId }
-        users[indexUser].subscribedSports.removeAt(indexSport)
+    override suspend fun removeSportFromUser(sId: String): Resource<User> {
+        val indexSport = users[0].subscribedSports.indexOfFirst { it == sId }
+        users[0].subscribedSports.removeAt(indexSport)
         //println("Repo : ${users}")
-        return Resource.Success(users[indexUser])
+        return Resource.Success(users[0])
     }
 
-    override suspend fun removeEventFromUser(uId: String, eId: String): Resource<User> {
-        val indexUser = users.indexOfFirst { it.id == uId }
-        val indexEvent = users[indexUser].subscribedEvents.indexOfFirst { it == eId }
-        users[indexUser].subscribedEvents.removeAt(indexEvent)
+    override suspend fun removeEventFromUser(eId: String): Resource<User> {
+        val indexEvent = users[0].subscribedEvents.indexOfFirst { it == eId }
+        users[0].subscribedEvents.removeAt(indexEvent)
         //println("Repo : ${users}")
-        return Resource.Success(users[indexUser])
+        return Resource.Success(users[0])
     }
 
 }

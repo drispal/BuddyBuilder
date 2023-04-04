@@ -22,41 +22,50 @@ class SportsViewModel @Inject constructor(
     private val _sports = MutableStateFlow<Resource<List<Sport>>?>(null)
     val sports: StateFlow<Resource<List<Sport>>?> = _sports
 
+    private val _mysports = MutableStateFlow<Resource<List<Sport>>?>(null)
+    val mysports: StateFlow<Resource<List<Sport>>?> = _mysports
+
     private val _user = MutableStateFlow<Resource<User>?>(null)
     val user: StateFlow<Resource<User>?> = _user
 
     init {
         getSports()
-        getUser()
+        getMySports()
     }
 
     private fun getSports() = viewModelScope.launch {
         _sports.value = Resource.Loading
         _sports.value = sportsRepository.getSports()
+        println("ViewModel : ${_sports.value}")
     }
 
-    private fun getUser() = viewModelScope.launch {
-        _user.value = Resource.Loading
-        _user.value = userRepository.getUser()
+    private fun getMySports() = viewModelScope.launch {
+        _mysports.value = Resource.Loading
+        _mysports.value = sportsRepository.getMySports()
+        println("ViewModel : ${_mysports.value}")
     }
 
-    fun addSportToUser(userId: String, sportId: String) = viewModelScope.launch {
-        _user.value = userRepository.addSportToUser(userId, sportId)
+    fun addSportToUser(sportId: String) = viewModelScope.launch {
+        _user.value = userRepository.addSportToUser(sportId)
+        getMySports()
         //println("ViewModel : ${_user.value}")
     }
 
-    fun addEventToUser(userId : String, eventId : String) = viewModelScope.launch {
-        _user.value = userRepository.addEventToUser(userId, eventId)
+    fun addEventToUser(eventId : String) = viewModelScope.launch {
+        _user.value = userRepository.addEventToUser(eventId)
+        getMySports()
         //println("ViewModel : ${_user.value}")
     }
 
-    fun removeSportFromUser(userId: String, sportId: String) = viewModelScope.launch {
-        _user.value = userRepository.removeSportFromUser(userId, sportId)
+    fun removeSportFromUser(sportId: String) = viewModelScope.launch {
+        _user.value = userRepository.removeSportFromUser(sportId)
+        getMySports()
         //println("ViewModel : ${_user.value}")
     }
 
-    fun removeEventFromUser(userId: String, eventId: String) = viewModelScope.launch {
-        _user.value = userRepository.removeEventFromUser(userId, eventId)
+    fun removeEventFromUser(eventId: String) = viewModelScope.launch {
+        _user.value = userRepository.removeEventFromUser(eventId)
+        getMySports()
         //println("ViewModel : ${_user.value}")
     }
 

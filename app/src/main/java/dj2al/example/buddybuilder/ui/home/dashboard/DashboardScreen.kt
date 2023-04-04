@@ -10,9 +10,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -28,8 +26,8 @@ import dj2al.example.buddybuilder.data.Resource
 import dj2al.example.buddybuilder.data.models.Event
 import dj2al.example.buddybuilder.data.models.Level
 import dj2al.example.buddybuilder.data.models.Sport
-import dj2al.example.buddybuilder.ui.AppScreen
 import dj2al.example.buddybuilder.ui.commons.FullScreenProgressbar
+import dj2al.example.buddybuilder.ui.commons.RegularEventCard
 import dj2al.example.buddybuilder.ui.commons.SmallEventCard
 import dj2al.example.buddybuilder.ui.commons.SportCard
 import dj2al.example.buddybuilder.ui.material3.BottomSheetScaffold
@@ -44,8 +42,7 @@ fun DashboardScreen(viewModel: DashboardViewModel, navController: NavController)
 
         val scaffoldState = rememberBottomSheetScaffoldState()
 
-        val user = viewModel.user.collectAsState()
-        val sports = viewModel.sports.collectAsState()
+        val myEvents = viewModel.myEvents.collectAsState()
         val events = viewModel.events.collectAsState()
 
         BottomSheetScaffold(
@@ -66,98 +63,82 @@ fun DashboardScreen(viewModel: DashboardViewModel, navController: NavController)
                     )
                 }
                 // remaining items
-                user.value?.let {u ->
-                    when (u) {
+                events.value?.let {
+                    when (it) {
                         is Resource.Failure -> {
-                            Toast.makeText(context, u.exception.message, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, it.exception.message, Toast.LENGTH_SHORT).show()
                         }
                         Resource.Loading -> {
                             FullScreenProgressbar()
                         }
                         is Resource.Success -> {
-                            events.value?.let {
-                                when (it) {
-                                    is Resource.Failure -> {
-                                        Toast.makeText(context, it.exception.message, Toast.LENGTH_SHORT).show()
-                                    }
-                                    Resource.Loading -> {
-                                        FullScreenProgressbar()
-                                    }
-                                    is Resource.Success -> {
-                                        println("DashBoard = ${it.result}")
-                                        println("DashBoard filter = ${u.result.subscribedEvents}")
-                                        DashboardEventsData(incomingEvents = it.result.filter { u.result.subscribedEvents.contains(it.id) }, dashboardViewModel = viewModel, navController = navController)
-                                    }
-                                }
-                            }
+                            DashboardAllEventsData(incomingEvents = it.result, dashboardViewModel = viewModel, navController = navController)
                         }
                     }
                 }
+
             },
-            ) {
+        ) {
             // app UI
-            user.value?.let {u ->
-                when (u) {
+            myEvents.value?.let {
+                when (it) {
                     is Resource.Failure -> {
-                        Toast.makeText(context, u.exception.message, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, it.exception.message, Toast.LENGTH_SHORT).show()
                     }
                     Resource.Loading -> {
                         FullScreenProgressbar()
                     }
                     is Resource.Success -> {
-                        sports.value?.let {
-                            when (it) {
-                                is Resource.Failure -> {
-                                    Toast.makeText(context, it.exception.message, Toast.LENGTH_SHORT).show()
-                                }
-                                Resource.Loading -> {
-                                    FullScreenProgressbar()
-                                }
-                                is Resource.Success -> {
-                                    DashboardSportsData(subscribedSports = it.result.filter { u.result.subscribedSports.contains(it.id) }, dashboardViewModel = viewModel, navController = navController)
-                                }
-                            }
-                        }
+                        DashboardMyEventsData(subscribedSports = it.result, dashboardViewModel = viewModel, navController = navController)
                     }
                 }
+            }
+
+        }
+    }
+}
+
+@Composable
+fun DashboardMyEventsData(subscribedSports : List<Event>, dashboardViewModel: DashboardViewModel, navController: NavController) {
+    ConstraintLayout(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        val (title, events) = createRefs()
+
+        Text (
+            text = stringResource(id = R.string.my_events),
+            modifier = Modifier
+                .padding(10.dp)
+                .constrainAs(title) {
+                    top.linkTo(parent.top)
+                    start.linkTo(parent.start)
+                },
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.primary
+        )
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .constrainAs(events) {
+                    top.linkTo(title.bottom)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                    bottom.linkTo(parent.bottom)
+                },
+            horizontalAlignment = Alignment.CenterHorizontally,
+            contentPadding = PaddingValues(10.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+        ) {
+            items(subscribedSports) { event ->
+                RegularEventCard(event = event)
             }
         }
     }
 }
 
 @Composable
-fun DashboardSportsData(subscribedSports : List<Sport>, dashboardViewModel: DashboardViewModel, navController: NavController) {
-    ConstraintLayout(modifier = Modifier.fillMaxSize()) {
-        LazyColumn(
-            modifier = Modifier.fillMaxWidth(),
-            contentPadding = PaddingValues(10.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            content = {
-                items(subscribedSports) {sport ->
-                    SportCard(
-                        sport,
-                        false,
-                        {
-                           navController.navigate(AppScreen.Events.route + "/${sport.name}/${sport.id}")
-                        }
-                    )
-                }
-                item {
-                    Button(onClick = {
-                        navController.navigate(AppScreen.Sports.route)}, modifier = Modifier.size(65.dp)) {
-                        Icon(painter = painterResource(id = R.drawable.ic_add), contentDescription = "", modifier = Modifier.scale(3f))
-                    }
-                }
-                item {
-                    Spacer(modifier = Modifier.size(300.dp))
-                }
-            })
-    }
-}
-
-@Composable
-fun DashboardEventsData(incomingEvents : List<Event>, dashboardViewModel: DashboardViewModel, navController: NavController) {
+fun DashboardAllEventsData(incomingEvents : List<Event>, dashboardViewModel: DashboardViewModel, navController: NavController) {
     ConstraintLayout(modifier = Modifier
         .heightIn(min = 400.dp, max = 600.dp)
         .fillMaxWidth()) {
@@ -194,6 +175,7 @@ fun PreviewDashBoard() {
                             SportCard(
                                 sport,
                                 false,
+                                true,
                                 {
                                     //Todo navigate to events
                                 }

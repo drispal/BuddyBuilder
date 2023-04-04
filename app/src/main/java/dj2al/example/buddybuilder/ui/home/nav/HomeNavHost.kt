@@ -22,6 +22,7 @@ import dj2al.example.buddybuilder.ui.theme.BuddyBuilderTheme
 import dj2al.example.buddybuilder.R
 import dj2al.example.buddybuilder.ui.home.events.AddEventScreen
 import dj2al.example.buddybuilder.ui.home.events.EventsScreen
+import dj2al.example.buddybuilder.ui.home.sports.MySportsScreen
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
@@ -39,6 +40,7 @@ fun HomeNavHost() {
 
     val MenuItems = listOf<AppScreen>(
         AppScreen.Home,
+        AppScreen.MySports,
         AppScreen.User
     )
     val selectedItem = remember { mutableStateOf(MenuItems[0])}
@@ -105,8 +107,11 @@ fun HomeNavHost() {
                                 composable(route = AppScreen.Home.route) {
                                     DashboardScreen(hiltViewModel(), navController)
                                 }
+                                composable(route = AppScreen.MySports.route) {
+                                    MySportsScreen(hiltViewModel(), navController)
+                                }
                                 composable(route = AppScreen.Sports.route) {
-                                    customTitle.value = "Sports"
+                                    customTitle.value = stringResource(id = AppScreen.Sports.resourceId)
                                     SportsScreen(hiltViewModel())
                                 }
                                 composable(route = AppScreen.User.route) {

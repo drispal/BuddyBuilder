@@ -5,6 +5,7 @@ import dj2al.example.buddybuilder.data.models.Sport
 
 interface SportsRepository {
     suspend fun getSports(): Resource<List<Sport>>
+    suspend fun getMySports(): Resource<List<Sport>>
     suspend fun addSport(sport: Sport): Resource<List<Sport>>
     suspend fun updateSport(sport: Sport): Resource<Sport>
     suspend fun deleteSport(id: String): Resource<Boolean>

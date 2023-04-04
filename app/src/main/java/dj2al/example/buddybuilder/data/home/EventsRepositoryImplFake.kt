@@ -8,29 +8,15 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
-class EventsRepositoryImplFake @Inject constructor(private val usersRepository: UsersRepositoryImplFake): EventsRepository {
+class EventsRepositoryImplFake @Inject constructor(
+    private val usersRepository: UsersRepositoryImplFake
+    ): EventsRepository {
 
     private val events : MutableList<Event> = mutableListOf()
-    private val _user = MutableStateFlow<Resource<User>?>(null)
-    val sports: StateFlow<Resource<User>?> = _user
 
     override suspend fun getUserEvents(): Resource<List<Event>> {
-        _user.value = usersRepository.getUser()
-        _user.value?.let { u ->
-            when (u) {
-                is Resource.Failure -> {
-                    return u
-                }
-                is Resource.Loading -> {
-                    return u
-                }
-                is Resource.Success -> {
-                    val userEvents = events.filter { u.result.subscribedEvents.contains(it.id) }
-                    return Resource.Success(userEvents)
-                }
-            }
-        }
-        return Resource.Failure(Exception("User not found"))
+        val userEvents = events.filter { usersRepository.users[0].subscribedEvents.contains(it.id) }
+        return Resource.Success(userEvents)
     }
 
     override suspend fun getSportEvents(sportId : String): Resource<List<Event>> {

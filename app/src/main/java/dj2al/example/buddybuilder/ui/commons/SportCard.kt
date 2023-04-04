@@ -41,6 +41,7 @@ import dj2al.example.buddybuilder.ui.theme.BuddyBuilderTheme
 @Composable
 fun SportCard(
     sport: Sport,
+    clickable : Boolean,
     checked : Boolean,
     onCheckedStatusChange: (Boolean) -> Unit,
     gapBetweenThumbAndTrackEdge : Dp = 2.dp,
@@ -49,7 +50,6 @@ fun SportCard(
     checkedTrackColor: Color = MaterialTheme.colorScheme.primaryContainer,
     uncheckedTrackColor: Color = MaterialTheme.colorScheme.surface,
     cornerSize: Int = 10,
-    thumbSize: Dp = 120.dp
 ) {
 
     // this is to disable the ripple effect
@@ -81,8 +81,10 @@ fun SportCard(
                 indication = null,
                 interactionSource = interactionSource,
             ) {
-                switchOn = !switchOn
-                onCheckedStatusChange(switchOn)
+                if(clickable){
+                    switchOn = !switchOn
+                    onCheckedStatusChange(switchOn)
+                }
             },
         contentAlignment = Alignment.Center
     ) {
@@ -146,6 +148,7 @@ fun SportCardPreview() {
                     "PingPong",
                     R.drawable.sports_pingpong,
                 ),
+                true,
                 true,
                 {
                     println("PingPong")
