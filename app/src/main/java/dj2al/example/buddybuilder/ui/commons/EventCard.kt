@@ -71,13 +71,14 @@ fun RegularEventCard(event: Event) {
         shape = MaterialTheme.shapes.large,
         modifier = Modifier
             .fillMaxWidth()
-            .height(80.dp)
+            .height(106.dp)
     ) {
         Column (
             modifier = Modifier.padding(10.dp),
         ){
+            Text(text = event.sport, fontSize = 25.sp, fontWeight = FontWeight.Bold)
             Row(Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween) {
+                horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(text = "${event.startTime.toDate()} ${event.startTime.toTime()} - ${event.endTime.toTime()}",
                     fontSize = 25.sp,)
                 Row() {
@@ -104,81 +105,93 @@ fun RegularEventCard(event: Event) {
 }
 
 @Composable
-fun ConfirmationEventCard(event: Event) {
-    Card(
-        shape = MaterialTheme.shapes.large,
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(300.dp)
-    ) {
-        Column (
-            modifier = Modifier.padding(10.dp,20.dp,10.dp,10.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ){
-            Row(Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween) {
-                Text(text = event.sport,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 25.sp,
-                    letterSpacing = 0.5.sp,)
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(text = stringResource(id = R.string.lvl))
-                    Image(painter = painterResource(id = event.level.logo), contentDescription = "", Modifier.size(40.dp))
+fun ConfirmationEventCard(
+    event: Event,
+    isVisible : Boolean,
+    onConfirmation : () -> Unit,
+    onDismiss : () -> Unit
+) {
+    if(isVisible)
+    {
+        AlertDialog(onDismissRequest = { /*TODO*/ },
+            title = {
+                Column (
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ){
+                    Row(Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween) {
+                        Text(text = event.sport,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 25.sp,
+                            letterSpacing = 0.5.sp,)
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(text = stringResource(id = R.string.lvl))
+                            Image(painter = painterResource(id = event.level.logo), contentDescription = "", Modifier.size(40.dp))
+                        }
+                    }
+                    Text(text = "${event.startTime.toDateWithDay()} ${event.startTime.toTime()} - ${event.endTime.toTime()}",
+                        fontSize = 18.sp, modifier = Modifier.fillMaxWidth())
+                    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
+                        Spacer(modifier = Modifier.size(2.dp))
+                        Image(painter = painterResource(id = R.drawable.ic_group), contentDescription = "", Modifier.size(25.dp))
+                        Spacer(modifier = Modifier.size(8.dp))
+                        Text(text = stringResource(id = R.string.available)+ "${event.maxParticipants.toString()}",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 15.sp,)
+                        Spacer(modifier = Modifier.size(10.dp))
+                        Image(painter = painterResource(id = R.drawable.ic_group), contentDescription = "", Modifier.size(25.dp))
+                        Spacer(modifier = Modifier.size(8.dp))
+                        Text(text = stringResource(id = R.string.sub)+" ${event.nbParticipants.toString()}",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 15.sp,)
+                    }
+                    Text(text = stringResource(id = R.string.court) + " ${event.court}",
+                        fontSize = 18.sp, modifier = Modifier.fillMaxWidth())
                 }
-            }
-            Text(text = "${event.startTime.toDateWithDay()} ${event.startTime.toTime()} - ${event.endTime.toTime()}",
-                fontSize = 18.sp, modifier = Modifier.fillMaxWidth())
-            Text(text = stringResource(id = R.string.week_prevision),
-                fontSize = 18.sp, modifier = Modifier.fillMaxWidth())
-            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
-                Spacer(modifier = Modifier.size(2.dp))
-                Image(painter = painterResource(id = R.drawable.ic_group), contentDescription = "", Modifier.size(25.dp))
-                Spacer(modifier = Modifier.size(8.dp))
-                Text(text = stringResource(id = R.string.available)+ "${event.maxParticipants.toString()}",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 15.sp,)
-                Spacer(modifier = Modifier.size(10.dp))
-                Image(painter = painterResource(id = R.drawable.ic_group), contentDescription = "", Modifier.size(25.dp))
-                Spacer(modifier = Modifier.size(8.dp))
-                Text(text = stringResource(id = R.string.sub)+" ${event.nbParticipants.toString()}",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 15.sp,)
-            }
-            Text(text = stringResource(id = R.string.court) + " ${event.court}",
-                fontSize = 18.sp, modifier = Modifier.fillMaxWidth())
-            Spacer(modifier = Modifier.size(20.dp))
-            ElevatedButton(
-                onClick = { },
-                modifier = Modifier
-                    .width(width = 273.dp)
-                    .height(height = 41.dp)
-                    .clip(RoundedCornerShape(10.dp))
-            ) {
-                Text(
-                    text = stringResource(id = R.string.imdown),
-                    textAlign = TextAlign.Center,
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold)
-                )
-            }
-            Spacer(modifier = Modifier.size(10.dp))
-            OutlinedButton(
-                onClick = { },
-                modifier = Modifier
-                    .width(width = 273.dp)
-                    .height(height = 41.dp)
-                    .clip(RoundedCornerShape(10.dp))
-            ) {
-                Text(
-                    text = stringResource(id = R.string.oops),
-                    textAlign = TextAlign.Center,
-                    style = TextStyle(
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold)
-                )
-            }
-        }
+            },
+            confirmButton = {
+                ElevatedButton(
+                    onClick = {onConfirmation()},
+                    modifier = Modifier
+                        .width(width = 273.dp)
+                        .height(height = 41.dp)
+                        .clip(RoundedCornerShape(10.dp)),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
+                    )
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.imdown),
+                        textAlign = TextAlign.Center,
+                        style = TextStyle(
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold)
+                    )
+                }
+            },
+            dismissButton = {
+                ElevatedButton(
+                    onClick = {onDismiss()},
+                    modifier = Modifier
+                        .width(width = 273.dp)
+                        .height(height = 41.dp)
+                        .clip(RoundedCornerShape(10.dp)),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.error,
+                        contentColor = MaterialTheme.colorScheme.onError
+                    )
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.oops),
+                        textAlign = TextAlign.Center,
+                        style = TextStyle(
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold)
+                    )
+                }
+            },
+        )
     }
 }
 
@@ -235,17 +248,20 @@ fun EventCardPreview() {
             SmallEventList(eventList = list)
             RegularEventList(eventList = list)
             Box(Modifier.padding(10.dp)) {
-                ConfirmationEventCard(event = Event(
-                    "Football",
-                    11630,
-                    2030,
-                    10,
-                    30,
-                    level = Level.Level2,
-                    22,
-                    "Beaujoire",
-                    "responsable"
-                ))
+                ConfirmationEventCard(
+                    event = Event(
+                        "Football",
+                        11630,
+                        2030,
+                        10,
+                        30,
+                        level = Level.Level2,
+                        22,
+                        "Beaujoire",
+                        "responsable"),
+                    true,
+                    onConfirmation = { /*TODO*/ },
+                    onDismiss = { /*TODO*/ })
             }
         }
     }

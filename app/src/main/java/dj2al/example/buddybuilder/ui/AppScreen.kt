@@ -6,8 +6,9 @@ import dj2al.example.buddybuilder.R
 sealed class AppScreen(val route : String, @StringRes val resourceId: Int, val icon : Int) {
 
     object Auth : AppScreen("nav_auth", R.string.app_name, R.drawable.ic_home) {
-        object Login : AppScreen("login", R.string.app_name, R.drawable.ic_home)
-        object Signup : AppScreen("signup", R.string.app_name, R.drawable.ic_home)
+        object Login : AppScreen("login", R.string.login, R.drawable.ic_home)
+        object Signup : AppScreen("signup", R.string.signup, R.drawable.ic_home)
+        object Logout : AppScreen("logout", R.string.logout, R.drawable.ic_logout)
     }
 
     object Home: AppScreen("home",R.string.home, R.drawable.ic_home)

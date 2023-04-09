@@ -31,14 +31,8 @@ class DashboardViewModel @Inject constructor(
     val user: StateFlow<Resource<User>?> = _user
     
     init {
-        getUser()
         getEvents()
         getMyEvents()
-    }
-
-    private fun getUser() = viewModelScope.launch {
-        _user.value = Resource.Loading
-        _user.value = usersRepository.getUser()
     }
 
     private fun getMyEvents() = viewModelScope.launch {
@@ -49,6 +43,18 @@ class DashboardViewModel @Inject constructor(
     private fun getEvents() = viewModelScope.launch {
         _events.value = Resource.Loading
         _events.value = eventsRepository.getAllEvents()
+    }
+
+    private fun addEventToUser(event: Event) = viewModelScope.launch {
+        _user.value = Resource.Loading
+        _user.value = usersRepository.addEventToUser(event.id)
+        getMyEvents()
+    }
+
+    private fun removeEventFromUser(event: Event) = viewModelScope.launch {
+        _user.value = Resource.Loading
+        _user.value = usersRepository.removeEventFromUser(event.id)
+        getMyEvents()
     }
 
 }

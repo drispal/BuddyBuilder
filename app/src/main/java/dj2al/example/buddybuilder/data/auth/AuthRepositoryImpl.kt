@@ -1,9 +1,13 @@
 package dj2al.example.buddybuilder.data.auth
 
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.UserProfileChangeRequest
 import dj2al.example.buddybuilder.data.Resource
+import dj2al.example.buddybuilder.data.utils.await
+import javax.inject.Inject
 
 
-/*
 class AuthRepositoryImpl @Inject constructor(
     private val firebaseAuth: FirebaseAuth
 ) : AuthRepository {
@@ -36,4 +40,3 @@ class AuthRepositoryImpl @Inject constructor(
         firebaseAuth.signOut()
     }
 }
-*/

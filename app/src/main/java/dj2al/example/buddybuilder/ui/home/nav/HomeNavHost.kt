@@ -4,11 +4,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.util.fastMap
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -20,15 +20,16 @@ import dj2al.example.buddybuilder.ui.home.sports.SportsScreen
 import dj2al.example.buddybuilder.ui.home.user.UserScreen
 import dj2al.example.buddybuilder.ui.theme.BuddyBuilderTheme
 import dj2al.example.buddybuilder.R
+import dj2al.example.buddybuilder.ui.auth.Logout
 import dj2al.example.buddybuilder.ui.home.events.AddEventScreen
 import dj2al.example.buddybuilder.ui.home.events.EventsScreen
 import dj2al.example.buddybuilder.ui.home.sports.MySportsScreen
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeNavHost() {
+    val context = LocalContext.current
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -41,7 +42,8 @@ fun HomeNavHost() {
     val MenuItems = listOf<AppScreen>(
         AppScreen.Home,
         AppScreen.MySports,
-        AppScreen.User
+        AppScreen.User,
+        AppScreen.Auth.Logout
     )
     val selectedItem = remember { mutableStateOf(MenuItems[0])}
 
@@ -116,6 +118,9 @@ fun HomeNavHost() {
                                 }
                                 composable(route = AppScreen.User.route) {
                                     UserScreen(hiltViewModel())
+                                }
+                                composable(route = AppScreen.Auth.Logout.route) {
+                                    Logout(hiltViewModel(), context)
                                 }
 
                                 navigation(

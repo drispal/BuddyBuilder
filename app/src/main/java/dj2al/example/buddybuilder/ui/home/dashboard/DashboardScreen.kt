@@ -11,6 +11,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -26,18 +28,17 @@ import dj2al.example.buddybuilder.data.Resource
 import dj2al.example.buddybuilder.data.models.Event
 import dj2al.example.buddybuilder.data.models.Level
 import dj2al.example.buddybuilder.data.models.Sport
-import dj2al.example.buddybuilder.ui.commons.FullScreenProgressbar
-import dj2al.example.buddybuilder.ui.commons.RegularEventCard
-import dj2al.example.buddybuilder.ui.commons.SmallEventCard
-import dj2al.example.buddybuilder.ui.commons.SportCard
 import dj2al.example.buddybuilder.ui.material3.BottomSheetScaffold
 import dj2al.example.buddybuilder.ui.material3.rememberBottomSheetScaffoldState
 import dj2al.example.buddybuilder.ui.theme.BuddyBuilderTheme
+import androidx.compose.material3.AlertDialog
+import dj2al.example.buddybuilder.ui.commons.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashboardScreen(viewModel: DashboardViewModel, navController: NavController) {
     val context = LocalContext.current
+
     Column() {
 
         val scaffoldState = rememberBottomSheetScaffoldState()
@@ -96,6 +97,9 @@ fun DashboardScreen(viewModel: DashboardViewModel, navController: NavController)
 
         }
     }
+
+    //TODO dialog for confirmation
+
 }
 
 @Composable
@@ -151,6 +155,8 @@ fun DashboardAllEventsData(incomingEvents : List<Event>, dashboardViewModel: Das
             content = {
                 items(incomingEvents) {it ->
                     SmallEventCard(it)
+                    // TODO FINIR ICI
+                    ConfirmationEventCard(event = it, isVisible = true, onConfirmation = { /*TODO*/ }, onDismiss = { /*TODO*/ })
                 }
             })
     }

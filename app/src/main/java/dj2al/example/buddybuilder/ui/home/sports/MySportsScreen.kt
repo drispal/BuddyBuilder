@@ -4,6 +4,8 @@ package dj2al.example.buddybuilder.ui.home.sports
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -72,10 +74,17 @@ fun MySportsData(resource: List<Sport>, sportsViewModel: SportsViewModel, navCon
                 } )
             }
             item {
-                Button(onClick = {
-                    navController.navigate(AppScreen.Sports.route)},
-                    modifier = Modifier.height(120.dp).fillMaxWidth().clip(shape = RoundedCornerShape(percent = 10))) {
-                    Icon(painter = painterResource(id = R.drawable.ic_add), contentDescription = "", modifier = Modifier.scale(3f))
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(120.dp)
+                        .clip(shape = RoundedCornerShape(percent = 10))
+                        .background(color = MaterialTheme.colorScheme.primary).clickable(onClick = {
+                            navController.navigate(AppScreen.Sports.route)
+                        }),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(painter = painterResource(id = R.drawable.ic_add), contentDescription = "", modifier = Modifier.scale(3f), tint = MaterialTheme.colorScheme.onPrimary)
                 }
             }
             item {

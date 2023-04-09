@@ -40,4 +40,12 @@
     <string name="my_events">On vous y attend...</string>
     <string name="my_sport_title">Mes sports</string>
     <string name="sport_title">Sports</string>
+    <string name="login">Login</string>
+    <string name="signup">Sign Up</string>
+    <string name="dont_have_account">You don\'t have an account</string>
+    <string name="password">password</string>
+    <string name="email">email</string>
+    <string name="name">Name</string>
+    <string name="already_have_account">You already have an account</string>
+    <string name="logout">Logout</string>
 </resources>

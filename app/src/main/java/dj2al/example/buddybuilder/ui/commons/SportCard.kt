@@ -75,7 +75,7 @@ fun SportCard(
             width = borderWidth,
             color = MaterialTheme.colorScheme.outline,
             shape = RoundedCornerShape(percent = cornerSize)
-        )
+            )
             .background(color = if (switchOn) checkedTrackColor else uncheckedTrackColor)
             .clickable(
                 indication = null,
