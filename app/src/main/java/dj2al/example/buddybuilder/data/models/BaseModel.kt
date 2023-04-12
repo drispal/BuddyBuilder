@@ -6,7 +6,7 @@ import java.util.UUID
 
 abstract class BaseModel(
     @get:Exclude
-    open var id: String = UUID.randomUUID().toString()
+    open var id: String = ""
 ) {
     var createdAt: Long = currentDateTime
     var updatedAt: Long = currentDateTime

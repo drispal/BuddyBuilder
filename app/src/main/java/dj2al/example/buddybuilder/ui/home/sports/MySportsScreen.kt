@@ -11,10 +11,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,6 +38,11 @@ import dj2al.example.buddybuilder.ui.commons.SportCard
 fun MySportsScreen(viewModel: SportsViewModel, navController: NavController) {
     val context = LocalContext.current
     val sports = viewModel.mysports.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.getMySports()
+    }
+
     sports.value?.let {
         when (it) {
             is Resource.Failure -> {
@@ -79,7 +81,8 @@ fun MySportsData(resource: List<Sport>, sportsViewModel: SportsViewModel, navCon
                         .fillMaxWidth()
                         .height(120.dp)
                         .clip(shape = RoundedCornerShape(percent = 10))
-                        .background(color = MaterialTheme.colorScheme.primary).clickable(onClick = {
+                        .background(color = MaterialTheme.colorScheme.primary)
+                        .clickable(onClick = {
                             navController.navigate(AppScreen.Sports.route)
                         }),
                     contentAlignment = Alignment.Center

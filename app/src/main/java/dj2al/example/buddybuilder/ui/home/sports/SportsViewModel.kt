@@ -25,35 +25,30 @@ class SportsViewModel @Inject constructor(
     private val _mysports = MutableStateFlow<Resource<List<Sport>>?>(null)
     val mysports: StateFlow<Resource<List<Sport>>?> = _mysports
 
-    private val _user = MutableStateFlow<Resource<User>?>(null)
-    val user: StateFlow<Resource<User>?> = _user
-
     init {
         getSports()
         getMySports()
     }
 
-    private fun getSports() = viewModelScope.launch {
+    fun getSports() = viewModelScope.launch {
         _sports.value = Resource.Loading
         _sports.value = sportsRepository.getSports()
-        println("ViewModel : ${_sports.value}")
+        println("ViewModel sports : ${_sports.value}")
     }
 
-    private fun getMySports() = viewModelScope.launch {
+    fun getMySports() = viewModelScope.launch {
         _mysports.value = Resource.Loading
         _mysports.value = sportsRepository.getMySports()
-        println("ViewModel : ${_mysports.value}")
+        println("ViewModel my sports : ${_mysports.value}")
     }
 
     fun addSportToUser(sportId: String) = viewModelScope.launch {
-        _user.value = userRepository.addSportToUser(sportId)
-        getMySports()
+        userRepository.addSportToUser(sportId)
         //println("ViewModel : ${_user.value}")
     }
 
     fun removeSportFromUser(sportId: String) = viewModelScope.launch {
-        _user.value = userRepository.removeSportFromUser(sportId)
-        getMySports()
+        userRepository.removeSportFromUser(sportId)
         //println("ViewModel : ${_user.value}")
     }
 

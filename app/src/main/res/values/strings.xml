@@ -47,5 +47,6 @@
     <string name="name">Name</string>
     <string name="already_have_account">You already have an account</string>
     <string name="logout">Logout</string>
+    <string name="error_getting_user">Can\'t get user infos</string>
 </resources>
 

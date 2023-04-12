@@ -5,6 +5,6 @@ import com.google.firebase.firestore.IgnoreExtraProperties
 @IgnoreExtraProperties
 data class Sport(
     val name: String = "",
-    val thumbnail: Int,
+    val thumbnail: Int = 0,
 ) : BaseModel()
 

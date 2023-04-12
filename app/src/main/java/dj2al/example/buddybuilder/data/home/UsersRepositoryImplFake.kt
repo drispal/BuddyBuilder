@@ -37,7 +37,7 @@ class UsersRepositoryImplFake @Inject constructor(): UsersRepository {
         return Resource.Success(users)
     }
 
-    override suspend fun addUser(u : User): Resource<List<User>> {
+    override suspend fun addUser(id : String, u : User): Resource<List<User>> {
         users.add(u)
         //println("Repo : ${users}")
         return Resource.Success(users)

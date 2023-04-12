@@ -1,6 +1,7 @@
 package dj2al.example.buddybuilder.di
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,12 +22,13 @@ object AppModule {
     fun provideAuthRepository(impl: AuthRepositoryImpl): AuthRepository = impl
 
     @Provides
-    @Singleton //Remove when using real repository
-    fun provideSportsRepository(impl : SportsRepositoryImplFake): SportsRepository = impl
+    fun provideFirebaseDb(): FirebaseFirestore = FirebaseFirestore.getInstance()
 
     @Provides
-    @Singleton //Remove when using real repository
-    fun provideUsersRepository(impl : UsersRepositoryImplFake): UsersRepository = impl
+    fun provideSportsRepository(impl : SportsRepositoryImpl): SportsRepository = impl
+
+    @Provides
+    fun provideUsersRepository(impl : UsersRepositoryImpl): UsersRepository = impl
 
     @Provides
     @Singleton //Remove when using real repository
