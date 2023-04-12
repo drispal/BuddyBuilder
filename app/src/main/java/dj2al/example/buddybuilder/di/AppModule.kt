@@ -31,8 +31,7 @@ object AppModule {
     fun provideUsersRepository(impl : UsersRepositoryImpl): UsersRepository = impl
 
     @Provides
-    @Singleton //Remove when using real repository
-    fun provideEventsRepository(impl : EventsRepositoryImplFake): EventsRepository = impl
+    fun provideEventsRepository(impl : EventsRepositoryImpl): EventsRepository = impl
 
 
 }
