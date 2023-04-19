@@ -65,7 +65,7 @@ fun UserData(user : User)
             Text(text = "Sports inscrits : ${user.subscribedSports}",
                 fontSize = 20.sp)
             Spacer(modifier = Modifier.size(30.dp))
-            Text(text = "Evénements enregistrées : ${user.subscribedSports}",
+            Text(text = "Evénements enregistrées (${user.subscribedEvents.size}): ${user.subscribedEvents}",
                 fontSize = 20.sp)
         }
     }

@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 import androidx.annotation.StringRes
+import dj2al.example.buddybuilder.R
 
 fun <A : Activity> Context.startNewActivity(activity: Class<A>) {
     Intent(this, activity).also {
@@ -23,4 +24,13 @@ fun Context.toast(@StringRes message: Int) {
 
 fun String?.toStringOrEmpty(): String {
     return this ?: ""
+}
+
+fun String?.toDrawableInt(): Int {
+    for (i in R.drawable::class.java.fields) {
+        if (i.name == this) {
+            return i.getInt(null)
+        }
+    }
+    return R.drawable.ic_not_found
 }

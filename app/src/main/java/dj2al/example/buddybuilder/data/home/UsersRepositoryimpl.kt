@@ -4,6 +4,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dj2al.example.buddybuilder.data.BaseRepository
 import dj2al.example.buddybuilder.data.Resource
+import dj2al.example.buddybuilder.data.models.Event
 import dj2al.example.buddybuilder.data.models.Sport
 import dj2al.example.buddybuilder.data.models.User
 import dj2al.example.buddybuilder.data.utils.await
@@ -106,6 +107,22 @@ class UsersRepositoryImpl @Inject constructor(
             return updateUser(model!!)
         } catch (e: Exception) {
             return Resource.Failure(e)
+        }
+    }
+
+    override suspend fun isSubscribedToEvent(eId: String): Boolean {
+        try {
+            return model!!.subscribedEvents.contains(eId)
+        } catch (e: Exception) {
+            return false
+        }
+    }
+
+    override suspend fun isResponsibleForEvent(e: Event): Boolean {
+        try {
+            return e.responsable == model!!.id
+        } catch (e: Exception) {
+            return false
         }
     }
 

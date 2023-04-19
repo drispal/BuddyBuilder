@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import dj2al.example.buddybuilder.R
 import dj2al.example.buddybuilder.data.models.Event
 import dj2al.example.buddybuilder.data.models.Level
+import dj2al.example.buddybuilder.data.models.toLevel
 import dj2al.example.buddybuilder.data.utils.getDay
 import dj2al.example.buddybuilder.data.utils.toDate
 import dj2al.example.buddybuilder.data.utils.toDateWithDay
@@ -34,22 +35,30 @@ import dj2al.example.buddybuilder.ui.theme.BuddyBuilderTheme
 
 
 @Composable
-fun SmallEventCard(event: Event) {
+fun SmallEventCard(event: Event, accepted : Boolean, modifier: Modifier) {
     Card(
         shape = MaterialTheme.shapes.large,
-        modifier = Modifier
+        modifier = modifier
             .width(200.dp)
-            .height(77.dp)
+            .height(77.dp),
+        colors = if (!accepted) CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.error,
+            contentColor = MaterialTheme.colorScheme.onError
+        ) else CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary
+        )
     ) {
         Row (
             modifier = Modifier.padding(10.dp),
-            verticalAlignment = Alignment.CenterVertically){
+
+        verticalAlignment = Alignment.CenterVertically){
             Column(modifier = Modifier.width(128.dp)) {
-                Text(text = event.sport,
+                Text(text = event.sportName,
                     fontWeight = FontWeight.Bold,
                     fontSize = 15.sp,
                     letterSpacing = 0.5.sp,)
-                Text(text = "${event.startTime.getDay()} ${event.startTime.toTime()} - ${event.endTime.toTime()}",
+                Text(text = "${event.startTime.toDate()} ${event.startTime.toTime()} - ${event.endTime.toTime()}",
                     fontSize = 10.sp,)
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Spacer(modifier = Modifier.size(2.dp))
@@ -60,13 +69,13 @@ fun SmallEventCard(event: Event) {
                         fontSize = 15.sp,)
                 }
             }
-            Image(painter = painterResource(id = event.level.logo), contentDescription = "", Modifier.size(50.dp))
+            Image(painter = painterResource(id = event.level.toLevel().logo), contentDescription = "", Modifier.size(50.dp))
         }
     }
 }
 
 @Composable
-fun RegularEventCard(event: Event) {
+fun RegularEventCard(event: Event, isOrganisator : Boolean) {
     Card(
         shape = MaterialTheme.shapes.large,
         modifier = Modifier
@@ -76,14 +85,19 @@ fun RegularEventCard(event: Event) {
         Column (
             modifier = Modifier.padding(10.dp),
         ){
-            Text(text = event.sport, fontSize = 25.sp, fontWeight = FontWeight.Bold)
+            Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Text(text = event.sportName, fontSize = 25.sp, fontWeight = FontWeight.Bold)
+                Spacer(modifier = Modifier.size(10.dp))
+                if(isOrganisator)
+                    Image(painter = painterResource(id = R.drawable.ic_referee), contentDescription = "", Modifier.size(25.dp))
+            }
             Row(Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween) {
-                Text(text = "${event.startTime.toDate()} ${event.startTime.toTime()} - ${event.endTime.toTime()}",
+                Text(text = "${event.startTime.getDay()} ${event.startTime.toTime()} - ${event.endTime.toTime()}",
                     fontSize = 25.sp,)
                 Row() {
                     Text(text = stringResource(id = R.string.lvl))
-                    Image(painter = painterResource(id = event.level.logo), contentDescription = "", Modifier.size(30.dp))
+                    Image(painter = painterResource(id = event.level.toLevel().logo), contentDescription = "", Modifier.size(30.dp))
                 }
             }
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -120,13 +134,13 @@ fun ConfirmationEventCard(
                 ){
                     Row(Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween) {
-                        Text(text = event.sport,
+                        Text(text = event.sportName,
                             fontWeight = FontWeight.Bold,
                             fontSize = 25.sp,
                             letterSpacing = 0.5.sp,)
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Text(text = stringResource(id = R.string.lvl))
-                            Image(painter = painterResource(id = event.level.logo), contentDescription = "", Modifier.size(40.dp))
+                            Image(painter = painterResource(id = event.level.toLevel().logo), contentDescription = "", Modifier.size(40.dp))
                         }
                     }
                     Text(text = "${event.startTime.toDateWithDay()} ${event.startTime.toTime()} - ${event.endTime.toTime()}",
@@ -204,7 +218,7 @@ fun SmallEventList(eventList: List<Event>) {
         horizontalArrangement = Arrangement.spacedBy(10.dp),
         content = {
             items(eventList){
-                    it -> SmallEventCard(event = it)
+                    it -> SmallEventCard(event = it, true, Modifier)
             }})
 }
 
@@ -215,7 +229,7 @@ fun RegularEventList(eventList: List<Event>) {
         verticalArrangement = Arrangement.spacedBy(10.dp),
         content = {
             items(eventList){
-                    it -> RegularEventCard(event = it)
+                    it -> RegularEventCard(event = it, true)
             }})
 }
 
@@ -224,21 +238,23 @@ fun RegularEventList(eventList: List<Event>) {
 fun EventCardPreview() {
     val list: List<Event> = listOf(Event(
         "Football",
+        sport = "",
         11630,
         2030,
         10,
         30,
-        level = Level.Level1,
+        level = 0,
         22,
         "Beaujoire",
         "responsable"
     ),Event(
         "Football",
+        sport = "",
         11630,
         2030,
         10,
         30,
-        level = Level.Level2,
+        level = 2,
         22,
         "Beaujoire",
         "responsable"
@@ -251,15 +267,16 @@ fun EventCardPreview() {
                 ConfirmationEventCard(
                     event = Event(
                         "Football",
+                        sport = "",
                         11630,
                         2030,
                         10,
                         30,
-                        level = Level.Level2,
+                        level = 3,
                         22,
                         "Beaujoire",
                         "responsable"),
-                    true,
+                    false,
                     onConfirmation = { /*TODO*/ },
                     onDismiss = { /*TODO*/ })
             }

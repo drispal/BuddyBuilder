@@ -88,7 +88,7 @@ fun SportCard(
             },
         contentAlignment = Alignment.Center
     ) {
-        Text(text = sport.name)
+        Text(text = sport.name, style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.onPrimaryContainer)
         // this is to add padding at the each horizontal side
         Box(
             modifier = Modifier
@@ -102,7 +102,7 @@ fun SportCard(
 
             // thumb with icon
             Icon(
-                painter = painterResource(id = sport.thumbnail),
+                painter = painterResource(id = sport.thumbnail.toDrawableInt()),
                 contentDescription = if (switchOn) "Enabled" else "Disabled",
                 modifier = Modifier
                     .fillMaxHeight()
@@ -146,7 +146,7 @@ fun SportCardPreview() {
             SportCard(
                 Sport(
                     "PingPong",
-                    R.drawable.sports_pingpong,
+                    "sports_ski",
                 ),
                 true,
                 true,

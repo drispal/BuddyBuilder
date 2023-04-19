@@ -11,7 +11,7 @@ import javax.inject.Inject
 class EventsRepositoryImpl @Inject constructor(
     auth : FirebaseAuth,
     firestore: FirebaseFirestore,
-    private val usersRepository: UsersRepositoryImpl
+    private val usersRepository: UsersRepository
     ): EventsRepository, BaseRepository<Event>(auth) {
 
     protected val db = firestore.collection("events")
@@ -31,6 +31,7 @@ class EventsRepositoryImpl @Inject constructor(
                 }
             }
         } catch (e: Exception) {
+            println("Exception in getUserEvents: $e")
             Resource.Failure(e)
         }
     }
@@ -59,9 +60,9 @@ class EventsRepositoryImpl @Inject constructor(
     override suspend fun updateEvent(e: Event): Resource<Event> {
         return try {
             db.document(e.id).set(e)
-            val snapshot = db.document(e.id).get().await()
-            Resource.Success(getDocumentModel(snapshot, Event::class.java) as Event)
+            Resource.Success(e)
         } catch (e: Exception) {
+            println("Exception in updateEvent: $e")
             Resource.Failure(e)
         }
     }
@@ -69,9 +70,9 @@ class EventsRepositoryImpl @Inject constructor(
     override suspend fun addEvent(e: Event): Resource<Event> {
         return try {
             db.add(e)
-            val snapshot = db.document(e.id).get().await()
-            Resource.Success(getDocumentModel(snapshot, Event::class.java) as Event)
+            Resource.Success(e)
         } catch (e: Exception) {
+            println("Exception in addEvent: $e")
             Resource.Failure(e)
         }
     }

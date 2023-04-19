@@ -65,7 +65,8 @@ fun MySportsData(resource: List<Sport>, sportsViewModel: SportsViewModel, navCon
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             items(resource) { sport ->
-                SportCard(sport = sport, clickable = false, checked = true, onCheckedStatusChange = {
+                SportCard(sport = sport, clickable = true, checked = false, onCheckedStatusChange = {
+                    navController.navigate(AppScreen.Events.route + "/${sport.name}/${sport.id}")
                 } )
             }
             item {
@@ -82,9 +83,6 @@ fun MySportsData(resource: List<Sport>, sportsViewModel: SportsViewModel, navCon
                 ) {
                     Icon(painter = painterResource(id = R.drawable.ic_add), contentDescription = "", modifier = Modifier.scale(3f), tint = MaterialTheme.colorScheme.onPrimary)
                 }
-            }
-            item {
-                Spacer(modifier = Modifier.size(300.dp))
             }
         }
     }

@@ -29,31 +29,44 @@ class DashboardViewModel @Inject constructor(
 
     private val _user = MutableStateFlow<Resource<User>?>(null)
     val user: StateFlow<Resource<User>?> = _user
-    
+
     init {
         getEvents()
         getMyEvents()
+        getUser()
     }
 
-    private fun getMyEvents() = viewModelScope.launch {
+    fun getUser() = viewModelScope.launch {
+        _user.value = Resource.Loading
+        _user.value = usersRepository.getUser()
+    }
+
+    fun getMyEvents() = viewModelScope.launch {
         _myEvents.value = Resource.Loading
         _myEvents.value = eventsRepository.getUserEvents()
     }
 
-    private fun getEvents() = viewModelScope.launch {
+    fun getEvents() = viewModelScope.launch {
         _events.value = Resource.Loading
         _events.value = eventsRepository.getAllEvents()
     }
 
-    private fun addEventToUser(event: Event) = viewModelScope.launch {
-        _user.value = Resource.Loading
-        _user.value = usersRepository.addEventToUser(event.id)
+    fun addEventToUser(event: Event) = viewModelScope.launch {
+        if(usersRepository.isSubscribedToEvent(event.id)) return@launch
+        if(event.nbParticipants >= event.maxParticipants) return@launch
+        event.nbParticipants++
+        eventsRepository.updateEvent(event)
+        usersRepository.addEventToUser(event.id)
         getMyEvents()
     }
 
-    private fun removeEventFromUser(event: Event) = viewModelScope.launch {
-        _user.value = Resource.Loading
-        _user.value = usersRepository.removeEventFromUser(event.id)
+    fun removeEventFromUser(event: Event) = viewModelScope.launch {
+        if(usersRepository.isResponsibleForEvent(event)) return@launch
+        if(!usersRepository.isSubscribedToEvent(event.id)) return@launch
+        if(event.nbParticipants <= 0) return@launch
+        event.nbParticipants--
+        eventsRepository.updateEvent(event)
+        usersRepository.removeEventFromUser(event.id)
         getMyEvents()
     }
 

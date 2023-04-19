@@ -68,7 +68,7 @@ fun EventsData(resource: List<Event>, eventsViewModel: EventsViewModel, navContr
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             items(resource) { event ->
-                RegularEventCard(event = event)
+                RegularEventCard(event = event, true)
             }
             item {
                 Button(onClick = {navController.navigate(AppScreen.Events.Add.route + "/${eventsViewModel.sportName}/${eventsViewModel.sportId}")}, modifier = Modifier.size(65.dp)) {

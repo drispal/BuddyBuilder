@@ -57,17 +57,24 @@ class EventsViewModel @Inject constructor(
     fun addEvent() = viewModelScope.launch {
         _manageEventResult.value = Resource.Loading
         val event = Event(
+            sportName= sportName,
             sport = sportId,
             startTime = startTime.value,
             endTime = endTime.value,
             minParticipants = minParticipants.value,
             maxParticipants = maxParticipants.value,
             nbParticipants = 1,
-            level = level.value,
+            level = level.value.value,
             court = court.value,
-            responsable = "TODO"
+            responsable = usersRepository.getUser().let { user ->
+                when (user) {
+                    is Resource.Success -> user.result.id
+                    else -> ""
+                }
+            }
         )
         _manageEventResult.value = eventsRepository.addEvent(event)
+        usersRepository.addEventToUser(event.id)
         getEvents(sportId)
     }
 
