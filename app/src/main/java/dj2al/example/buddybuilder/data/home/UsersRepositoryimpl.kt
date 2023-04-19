@@ -73,9 +73,12 @@ class UsersRepositoryImpl @Inject constructor(
     override suspend fun addEventToUser(eId: String): Resource<User> {
         try {
             getUser()
+            if(model!!.subscribedEvents.contains(eId))
+                return Resource.Failure(Exception("User already subscribed to this event"))
             model!!.subscribedEvents.add(eId)
             return updateUser(model!!)
         } catch (e: Exception) {
+            println("UserRepository.addEventToUser : $e")
             return Resource.Failure(e)
         }
     }
@@ -83,6 +86,8 @@ class UsersRepositoryImpl @Inject constructor(
     override suspend fun addSportToUser(sId: String): Resource<User> {
         try {
             getUser()
+            if(model!!.subscribedSports.contains(sId))
+                return Resource.Failure(Exception("User already subscribed to this sport"))
             model!!.subscribedSports.add(sId)
             return updateUser(model!!)
         } catch (e: Exception) {
@@ -112,6 +117,7 @@ class UsersRepositoryImpl @Inject constructor(
 
     override suspend fun isSubscribedToEvent(eId: String): Boolean {
         try {
+            getUser()
             return model!!.subscribedEvents.contains(eId)
         } catch (e: Exception) {
             return false

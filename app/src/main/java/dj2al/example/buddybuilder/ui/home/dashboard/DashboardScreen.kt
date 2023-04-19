@@ -33,6 +33,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.runtime.*
 import androidx.compose.ui.draw.clip
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.gson.Gson
 import dj2al.example.buddybuilder.data.models.User
 import dj2al.example.buddybuilder.ui.AppScreen
 import dj2al.example.buddybuilder.ui.commons.*
@@ -67,10 +68,14 @@ fun DashboardScreen(viewModel: DashboardViewModel, navController: NavController)
                         .background(color = MaterialTheme.colorScheme.primary),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(
-                        text = stringResource(id = R.string.coming),
-                        color = MaterialTheme.colorScheme.onPrimary
-                    )
+                    Row(Modifier.fillMaxSize(), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+                        Icon(painter = if(scaffoldState.bottomSheetState.isCollapsed) painterResource(id = R.drawable.ic_round_keyboard_arrow_up) else painterResource(id = R.drawable.ic_round_keyboard_arrow_down), contentDescription = "", tint = MaterialTheme.colorScheme.onPrimary)
+                        Text(
+                            text = stringResource(id = R.string.coming),
+                            color = MaterialTheme.colorScheme.onPrimary
+                        )
+                        Icon(painter = if(scaffoldState.bottomSheetState.isCollapsed) painterResource(id = R.drawable.ic_round_keyboard_arrow_up) else painterResource(id = R.drawable.ic_round_keyboard_arrow_down), contentDescription = "", tint = MaterialTheme.colorScheme.onPrimary)
+                    }
                 }
                 // remaining items
                 events.value?.let { event ->
@@ -139,33 +144,50 @@ fun DashboardMyEventsData(subscribedSports : List<Event>, user: User, dashboardV
             .fillMaxSize()
     ) {
         val (title, events) = createRefs()
-
-        Text (
-            text = stringResource(id = R.string.my_events),
-            modifier = Modifier
-                .padding(10.dp)
-                .constrainAs(title) {
-                    top.linkTo(parent.top)
-                    start.linkTo(parent.start)
-                },
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.primary
-        )
+        Surface(modifier = Modifier
+            .padding(10.dp)
+            .constrainAs(title) {
+                top.linkTo(parent.top)
+                start.linkTo(parent.start)
+            }){
+            Text (
+                text = stringResource(id = R.string.my_events),
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.primary
+            )
+        }
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .constrainAs(events) {
-                    top.linkTo(title.bottom)
+                    top.linkTo(title.bottom, 30.dp)
                     start.linkTo(parent.start)
                     end.linkTo(parent.end)
                     bottom.linkTo(parent.bottom)
                 },
             horizontalAlignment = Alignment.CenterHorizontally,
-            contentPadding = PaddingValues(10.dp, 30.dp, 10.dp, 10.dp),
+            contentPadding = PaddingValues(10.dp, 10.dp, 10.dp, 10.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             items(subscribedSports) { event ->
-                RegularEventCard(event = event, event.responsable == user.id)
+                val isResponsable = event.responsable == user.id
+                if(isResponsable)
+                {
+                    RegularEventCard(event = event, isResponsable, Modifier.clickable { navController.navigate(AppScreen.Events.Edit.route + "/${event.sportName}/${event.sport}/${Gson().toJson(event)}") })
+                }
+                else
+                {
+                    val showDialog = remember { mutableStateOf(false) }
+                    RegularEventCard(event = event, isResponsable, Modifier.clickable {
+                        showDialog.value = true
+                    })
+                    ConfirmationEventCard(event = event, isVisible = showDialog.value, onConfirmation = {}, onUnconfirmation = {
+                        dashboardViewModel.removeEventFromUser(event)
+                        showDialog.value = false }, onDismiss = {showDialog.value = false})
+                }
+            }
+            item {
+                Spacer(modifier = Modifier.height(106.dp))
             }
         }
     }
@@ -190,9 +212,9 @@ fun DashboardAllEventsData(incomingEvents : List<Event>, subscribedEvents: List<
                     })
                     ConfirmationEventCard(event = it, isVisible = showDialog.value, onConfirmation = {
                         dashboardViewModel.addEventToUser(it)
-                        showDialog.value = false }, onDismiss = {
+                        showDialog.value = false }, onUnconfirmation = {
                         dashboardViewModel.removeEventFromUser(it)
-                        showDialog.value = false })
+                        showDialog.value = false }, onDismiss = {showDialog.value = false})
                 }
             })
     }

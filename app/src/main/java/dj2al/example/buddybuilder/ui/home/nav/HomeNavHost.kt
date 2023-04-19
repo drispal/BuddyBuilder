@@ -1,5 +1,6 @@
 package dj2al.example.buddybuilder.ui.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -12,7 +13,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavType
 import androidx.navigation.compose.*
+import androidx.navigation.navArgument
 import dj2al.example.buddybuilder.ui.AppScreen
 import dj2al.example.buddybuilder.ui.commons.AppBar
 import dj2al.example.buddybuilder.ui.home.dashboard.DashboardScreen
@@ -20,6 +23,7 @@ import dj2al.example.buddybuilder.ui.home.sports.SportsScreen
 import dj2al.example.buddybuilder.ui.home.user.UserScreen
 import dj2al.example.buddybuilder.ui.theme.BuddyBuilderTheme
 import dj2al.example.buddybuilder.R
+import dj2al.example.buddybuilder.data.models.Event
 import dj2al.example.buddybuilder.ui.auth.Logout
 import dj2al.example.buddybuilder.ui.home.events.AddEventScreen
 import dj2al.example.buddybuilder.ui.home.events.EventsScreen
@@ -51,7 +55,7 @@ fun HomeNavHost() {
             drawerState = drawerState,
             gesturesEnabled = false,
             drawerContent = {
-                ModalDrawerSheet() {
+                ModalDrawerSheet(modifier = Modifier.width(200.dp)) {
                     Spacer(Modifier.height(12.dp))
                     MenuItems.forEach { item ->
                         NavigationDrawerItem(
@@ -134,6 +138,12 @@ fun HomeNavHost() {
                                     }
                                     composable(route = AppScreen.Events.Add.route + "/{sportName}/{sportId}") {
                                         customTitle.value =  stringResource(id = R.string.add_eve) + " " + "${it.arguments?.getString("sportName").toString()}"
+                                        AddEventScreen(hiltViewModel(), navController)
+                                    }
+                                    composable(
+                                        route = AppScreen.Events.Edit.route + "/{sportName}/{sportId}/{event}"
+                                    ) {
+                                        customTitle.value =  stringResource(id = R.string.edit_my_event)
                                         AddEventScreen(hiltViewModel(), navController)
                                     }
                                 }

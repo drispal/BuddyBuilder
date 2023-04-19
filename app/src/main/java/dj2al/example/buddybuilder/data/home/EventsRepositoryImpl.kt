@@ -25,6 +25,12 @@ class EventsRepositoryImpl @Inject constructor(
                     val myEvents = events.filter { event ->
                         user.result.subscribedEvents.contains(event.id)
                     }
+                    // Delete unknown events
+                    user.result.subscribedEvents.filter { eventId ->
+                        !myEvents.map { it.id }.contains(eventId)
+                    }.forEach { eventId ->
+                        usersRepository.removeEventFromUser(eventId)
+                    }
                     return Resource.Success(myEvents)
                 } else {
                     throw Exception("Can't get user info's")
@@ -69,8 +75,14 @@ class EventsRepositoryImpl @Inject constructor(
 
     override suspend fun addEvent(e: Event): Resource<Event> {
         return try {
-            db.add(e)
-            Resource.Success(e)
+            val id = db.add(e).await().id
+            val snapshot = db.document(id).get().await()
+            val event = getDocumentModel(snapshot, Event::class.java)
+            if (event != null) {
+                Resource.Success(event)
+            } else {
+                throw Exception("Can't get event")
+            }
         } catch (e: Exception) {
             println("Exception in addEvent: $e")
             Resource.Failure(e)

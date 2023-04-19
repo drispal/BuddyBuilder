@@ -17,6 +17,7 @@ sealed class AppScreen(val route : String, @StringRes val resourceId: Int, val i
     object Events: AppScreen("nav_events", R.string.app_name, R.drawable.ic_agenda) {
         object Home: AppScreen("home", R.string.app_name, R.drawable.ic_agenda)
         object Add: AppScreen("add_event", R.string.app_name, R.drawable.ic_agenda)
+        object Edit: AppScreen("edit_event", R.string.app_name, R.drawable.ic_agenda)
     }
     object User: AppScreen("user", R.string.user, R.drawable.ic_account_box)
 }

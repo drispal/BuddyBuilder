@@ -75,10 +75,10 @@ fun SmallEventCard(event: Event, accepted : Boolean, modifier: Modifier) {
 }
 
 @Composable
-fun RegularEventCard(event: Event, isOrganisator : Boolean) {
+fun RegularEventCard(event: Event, isOrganisator : Boolean, modifier: Modifier) {
     Card(
         shape = MaterialTheme.shapes.large,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(106.dp)
     ) {
@@ -123,11 +123,12 @@ fun ConfirmationEventCard(
     event: Event,
     isVisible : Boolean,
     onConfirmation : () -> Unit,
-    onDismiss : () -> Unit
+    onUnconfirmation : () -> Unit,
+    onDismiss : () -> Unit,
 ) {
     if(isVisible)
     {
-        AlertDialog(onDismissRequest = { /*TODO*/ },
+        AlertDialog(onDismissRequest = {onDismiss()},
             title = {
                 Column (
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -186,7 +187,7 @@ fun ConfirmationEventCard(
             },
             dismissButton = {
                 ElevatedButton(
-                    onClick = {onDismiss()},
+                    onClick = {onUnconfirmation()},
                     modifier = Modifier
                         .width(width = 273.dp)
                         .height(height = 41.dp)
@@ -229,7 +230,7 @@ fun RegularEventList(eventList: List<Event>) {
         verticalArrangement = Arrangement.spacedBy(10.dp),
         content = {
             items(eventList){
-                    it -> RegularEventCard(event = it, true)
+                    it -> RegularEventCard(event = it, true, Modifier)
             }})
 }
 
@@ -278,7 +279,8 @@ fun EventCardPreview() {
                         "responsable"),
                     false,
                     onConfirmation = { /*TODO*/ },
-                    onDismiss = { /*TODO*/ })
+                    onDismiss = { /*TODO*/ },
+                    onUnconfirmation = { /*TODO*/ })
             }
         }
     }
