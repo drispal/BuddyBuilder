@@ -48,8 +48,8 @@
     <string name="already_have_account">すでにアカウントを持っています</string>
     <string name="logout">ログアウト</string>
     <string name="error_getting_user">ユーザー情報を取得できません</string>
-    <string name="edit_my_event">Edit my event</string>
-    <string name="cancel_event">Cancel my event</string>
-    <string name="filter">Filters</string>
-    <string name="referee">Referee</string>
+    <string name="edit_my_event">イベントを編集</string>
+    <string name="cancel_event">イベントをキャンセルする</string>
+    <string name="filter">フィルター</string>
+    <string name="referee">審判</string>
 </resources>

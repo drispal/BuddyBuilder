@@ -9,7 +9,7 @@
     <string name="user">Utilisateur</string>
     <string name="lvl">niv.</string>
     <string name="oops">Oups</string>
-    <string name="imdown">Je suis chaud</string>
+    <string name="imdown">Je suis chaud !</string>
     <string name="court">Terrain :</string>
     <string name="sub">abonnés :</string>
     <string name="available">disponible :</string>
@@ -42,15 +42,15 @@
     <string name="sport_title">Sports</string>
     <string name="login">Login</string>
     <string name="signup">Sign Up</string>
-    <string name="dont_have_account">You don\'t have an account</string>
-    <string name="password">password</string>
-    <string name="email">email</string>
-    <string name="name">Name</string>
-    <string name="already_have_account">You already have an account</string>
-    <string name="logout">Logout</string>
-    <string name="error_getting_user">Can\'t get user infos</string>
-    <string name="edit_my_event">Edit my event</string>
-    <string name="cancel_event">Cancel my event</string>
-    <string name="filter">Filters</string>
-    <string name="referee">Referee</string>
+    <string name="dont_have_account">Vous n\'avez pas de compte</string>
+    <string name="password">Mot de Passe</string>
+    <string name="email">Mail</string>
+    <string name="name">Nom</string>
+    <string name="already_have_account">Vous avez déjà un compte</string>
+    <string name="logout">Déconnexion</string>
+    <string name="error_getting_user">Impossible de charger l\'utilisateur</string>
+    <string name="edit_my_event">Modifier mon évennement</string>
+    <string name="cancel_event">Annuler</string>
+    <string name="filter">Filtre</string>
+    <string name="referee">Référent</string>
 </resources>
