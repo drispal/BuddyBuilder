@@ -50,5 +50,7 @@
     <string name="error_getting_user">Can\'t get user infos</string>
     <string name="edit_my_event">Edit my event</string>
     <string name="cancel_event">Cancel my event</string>
+    <string name="filter">Filters</string>
+    <string name="referee">Referee</string>
 </resources>
 

@@ -61,6 +61,7 @@ fun AddEventScreen(viewModel: EventsViewModel, navController: NavController) {
 
     val areInputsValid = viewModel.areInputsValid.collectAsState()
     val manageEventResult = viewModel.manageEventResult.collectAsState()
+    val isUpdating = viewModel.isUpdating.collectAsState()
 
     var isDateDialogShown: Boolean by rememberSaveable {
         mutableStateOf(false)
@@ -324,28 +325,30 @@ fun AddEventScreen(viewModel: EventsViewModel, navController: NavController) {
             }
         }
 
-        Button(
-            onClick = {
-                viewModel.deleteEvent()
-                navController.popBackStack()
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(40.dp)
-                .bringIntoViewRequester(bringIntoViewRequester)
-                .constrainAs(deleteButton) {
-                    start.linkTo(parent.start, margin = 40.dp)
-                    end.linkTo(parent.end, margin = 40.dp)
-                    bottom.linkTo(parent.bottom, margin = 20.dp)
-                    top.linkTo(card.bottom, margin = 20.dp)
+        if (isUpdating.value){
+            Button(
+                onClick = {
+                    viewModel.deleteEvent()
+                    navController.popBackStack()
                 },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(40.dp)
+                    .bringIntoViewRequester(bringIntoViewRequester)
+                    .constrainAs(deleteButton) {
+                        start.linkTo(parent.start, margin = 40.dp)
+                        end.linkTo(parent.end, margin = 40.dp)
+                        bottom.linkTo(parent.bottom, margin = 20.dp)
+                        top.linkTo(card.bottom, margin = 20.dp)
+                    },
 
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
-        ) {
-            Text(
-                text = stringResource(id = R.string.cancel_event),
-                style = MaterialTheme.typography.titleLarge
-            )
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
+            ) {
+                Text(
+                    text = stringResource(id = R.string.cancel_event),
+                    style = MaterialTheme.typography.titleLarge
+                )
+            }
         }
 
     }

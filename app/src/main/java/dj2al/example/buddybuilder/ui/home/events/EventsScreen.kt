@@ -1,6 +1,7 @@
 package dj2al.example.buddybuilder.ui.home.events
 
 import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -19,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.google.gson.Gson
 import dj2al.example.buddybuilder.R
 import dj2al.example.buddybuilder.data.Resource
 import dj2al.example.buddybuilder.data.models.Event
@@ -68,7 +70,7 @@ fun EventsData(resource: List<Event>, eventsViewModel: EventsViewModel, navContr
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             items(resource) { event ->
-                RegularEventCard(event = event, true, Modifier)
+                RegularEventCard(event = event, true, Modifier.clickable { navController.navigate(AppScreen.Events.Edit.route + "/${event.sportName}/${event.sport}/${Gson().toJson(event)}") })
             }
             item {
                 Button(onClick = {navController.navigate(AppScreen.Events.Add.route + "/${eventsViewModel.sportName}/${eventsViewModel.sportId}")}, modifier = Modifier.size(65.dp)) {

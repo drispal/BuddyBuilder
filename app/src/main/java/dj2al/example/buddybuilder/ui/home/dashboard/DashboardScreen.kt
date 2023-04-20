@@ -125,7 +125,7 @@ fun DashboardScreen(viewModel: DashboardViewModel, navController: NavController)
                                     FullScreenProgressbar()
                                 }
                                 is Resource.Success -> {
-                                    DashboardMyEventsData(subscribedSports = it.result, user = user.result, dashboardViewModel = viewModel, navController = navController)
+                                    DashboardMyEventsData(subscribedEvents = it.result, user = user.result, dashboardViewModel = viewModel, navController = navController)
                                 }
                             }
                         }
@@ -137,24 +137,85 @@ fun DashboardScreen(viewModel: DashboardViewModel, navController: NavController)
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DashboardMyEventsData(subscribedSports : List<Event>, user: User, dashboardViewModel: DashboardViewModel, navController: NavController) {
+fun DashboardMyEventsData(subscribedEvents: List<Event>, user: User, dashboardViewModel: DashboardViewModel, navController: NavController) {
+    val filteredEvents = remember {
+        mutableStateOf(subscribedEvents)
+    };
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
     ) {
         val (title, events) = createRefs()
+        var expanded by remember { mutableStateOf(false) }
         Surface(modifier = Modifier
             .padding(10.dp)
             .constrainAs(title) {
                 top.linkTo(parent.top)
                 start.linkTo(parent.start)
             }){
-            Text (
-                text = stringResource(id = R.string.my_events),
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.primary
-            )
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+                Text (
+                    text = stringResource(id = R.string.my_events),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Box(modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentSize(Alignment.CenterEnd)) {
+                    AssistChip(
+                        onClick = { expanded = true },
+                        label = { Text(stringResource(id = R.string.filter)) },
+                        leadingIcon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_round_filter_list),
+                                contentDescription = "Localized description",
+                                Modifier.size(AssistChipDefaults.IconSize)
+                            )
+                        }
+                    )
+                    DropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false }
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text("Date") },
+                            onClick = {
+                                filteredEvents.value = subscribedEvents.sortedBy { it.startTime }
+                                expanded = false },
+                            leadingIcon = {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_calendar),
+                                    contentDescription = null
+                                )
+                            })
+                        DropdownMenuItem(
+                            text = { Text("Sports") },
+                            onClick = {
+                                filteredEvents.value = subscribedEvents.sortedBy { it.sport }
+                                expanded = false },
+                            leadingIcon = {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.sports_soccer),
+                                    contentDescription = null
+                                )
+                            })
+                        DropdownMenuItem(
+                            text = { Text(stringResource(id = R.string.referee)) },
+                            onClick = {
+                                filteredEvents.value = subscribedEvents.sortedBy { it.responsable != user.id }
+                                expanded = false },
+                            leadingIcon = {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.ic_referee),
+                                    contentDescription = null
+                                )
+                            },
+                        )
+                    }
+                }
+            }
         }
         LazyColumn(
             modifier = Modifier
@@ -169,7 +230,7 @@ fun DashboardMyEventsData(subscribedSports : List<Event>, user: User, dashboardV
             contentPadding = PaddingValues(10.dp, 10.dp, 10.dp, 10.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
-            items(subscribedSports) { event ->
+            items(filteredEvents.value) { event ->
                 val isResponsable = event.responsable == user.id
                 if(isResponsable)
                 {
@@ -195,6 +256,7 @@ fun DashboardMyEventsData(subscribedSports : List<Event>, user: User, dashboardV
 
 @Composable
 fun DashboardAllEventsData(incomingEvents : List<Event>, subscribedEvents: List<Event>, dashboardViewModel: DashboardViewModel) {
+    val filteredEventsDate = incomingEvents.sortedBy { it.startTime }
     ConstraintLayout(modifier = Modifier
         .heightIn(min = 400.dp, max = 600.dp)
         .fillMaxWidth()) {
@@ -205,7 +267,7 @@ fun DashboardAllEventsData(incomingEvents : List<Event>, subscribedEvents: List<
             verticalArrangement = Arrangement.spacedBy(10.dp),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
             content = {
-                items(incomingEvents) {it ->
+                items(filteredEventsDate) {it ->
                     val showDialog = remember { mutableStateOf(false) }
                     SmallEventCard(it, subscribedEvents.contains(it), modifier = Modifier.clickable {
                         showDialog.value = true

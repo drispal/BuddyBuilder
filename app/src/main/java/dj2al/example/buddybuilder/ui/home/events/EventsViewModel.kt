@@ -55,7 +55,7 @@ class EventsViewModel @Inject constructor(
     val level = MutableStateFlow<Level>(_event.value.level.toLevel())
     val court = MutableStateFlow<String>(_event.value.court)
 
-    private val _isUpdating = MutableStateFlow(event.value.id.isNotEmpty())
+    val isUpdating = MutableStateFlow(event.value.id.isNotEmpty())
 
     init {
         getEvents(sportId)
@@ -121,7 +121,7 @@ class EventsViewModel @Inject constructor(
     }
 
     fun resetResource() {
-        _isUpdating.value = false
+        isUpdating.value = false
         _event.value = Event()
     }
 }
