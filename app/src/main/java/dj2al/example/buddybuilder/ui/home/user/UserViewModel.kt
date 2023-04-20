@@ -27,4 +27,9 @@ class UserViewModel @Inject constructor(
         _user.value = Resource.Loading
         _user.value = repository.getUser()
     }
+
+    fun updateUser(user: User) = viewModelScope.launch {
+        _user.value = Resource.Loading
+        _user.value = repository.updateUser(user)
+    }
 }
