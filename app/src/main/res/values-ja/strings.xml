@@ -52,4 +52,6 @@
     <string name="cancel_event">イベントをキャンセルする</string>
     <string name="filter">フィルター</string>
     <string name="referee">審判</string>
+    <string name="distance_user">Distance acceptable du lieu d\'activité</string>
+    <string name="localization">Localisation</string>
 </resources>

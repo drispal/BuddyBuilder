@@ -52,5 +52,7 @@
     <string name="cancel_event">Cancel my event</string>
     <string name="filter">Filters</string>
     <string name="referee">Referee</string>
+    <string name="distance_user">Distance acceptable du lieu d\'activité</string>
+    <string name="localization">Localisation</string>
 </resources>
 
