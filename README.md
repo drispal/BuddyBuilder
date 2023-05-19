@@ -3,6 +3,8 @@
 
 Our project is an application aimed at facilitating people coming together to engage in sports activities. The application specifically targets individuals who are active and, furthermore, those who may not have a sufficient number of people to participate in their desired sport.
 
+This project was made during the Winter 2023 session by students from UQAC (Canada).
+
 
 ## Features
 
