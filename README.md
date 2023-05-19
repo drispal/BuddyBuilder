@@ -26,6 +26,12 @@ Our project is an application aimed at facilitating people coming together to en
 **Server:** Firebase
 
 
+## Installation
+
+If you want to use this project, you need to setup a new firebase instance and add the ```google-services.json``` file to the project.
+
+
+    
 ## Authors
 
 - [@drispal](https://www.github.com/drispal) as Lead Programmer
