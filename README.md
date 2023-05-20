@@ -18,7 +18,7 @@ This project was made during the Winter 2023 session by students from UQAC (Cana
 
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![App Screenshot](screenshot_figma.png)
 
 
 ## Tech Stack
