@@ -1,3 +1,4 @@
+![App Screenshot](buddybuilder.png)
 
 # BUDDYBUILDER
 
